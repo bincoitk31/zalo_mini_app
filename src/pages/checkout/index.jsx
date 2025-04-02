@@ -172,7 +172,7 @@ const Checkout = () => {
       //   myTransactionId: id
       // },
       method: {
-        id: "COD_SANDBOX",
+        id: "COD",
         isCustom: false,
       }
     }
@@ -203,7 +203,7 @@ const Checkout = () => {
         //   myTransactionId: id // transaction id riêng của hệ thống của bạn
         // }),
         method: JSON.stringify({
-          id: "COD_SANDBOX", // Phương thức thanh toán
+          id: "COD", // Phương thức thanh toán
           isCustom: false, // false: Phương thức thanh toán của Platform, true: Phương thức thanh toán riêng của đối tác
         }),
         mac: mac,

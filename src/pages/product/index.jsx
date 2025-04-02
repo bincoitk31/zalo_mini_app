@@ -11,8 +11,6 @@ import { openChat } from "zmp-sdk/apis"
 import { getApi} from "../../utils/request"
 
 import SliderProduct from "./slider-product"
-import TabsProduct from "./tabs-product"
-import QuantityProduct from "../../components/quantity-product"
 import Description from "./description"
 
 const Product = () => {

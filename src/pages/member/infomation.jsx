@@ -13,7 +13,7 @@ const Infomation = () => {
 
   const getUser = async () => {
     try {
-      const { userInfo } = await getUserInfo({});
+      const { userInfo } = await getUserInfo({})
       return userInfo
     } catch (error) {
       // xử lý khi gọi api thất bại
@@ -62,7 +62,7 @@ const Infomation = () => {
           phone_number: formatPhoneNumber(res.data.data.number),
           avatar: userInfo.avatar,
           name: userInfo.name,
-          zalo_id: userInfo.id
+          zalo_id: userInfo.idByOA
         }
         loginStorecake(data)
 
