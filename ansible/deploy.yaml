@@ -12,4 +12,4 @@
   serial: 1
   tasks:
     - name: Restart
-      command: bash -lc "pm2 restart zalo-mini-app --update-env"
+      command: bash -lc "pm2 restart theme-1 --update-env"

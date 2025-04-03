@@ -89,7 +89,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'product' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Chi tiết sản phẩm</div>
@@ -101,7 +101,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'checkout' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Trang thanh toán</div>
@@ -113,7 +113,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'address' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Địa chỉ nhận hàng</div>
@@ -125,7 +125,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'categories' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <HouseLine onClick={goHome} size={20} color="#ffffff" weight="bold" />
               <div className="pl-3 w-[250px]">
@@ -147,7 +147,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'search' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <HouseLine onClick={goHome} size={20} color="#ffffff" weight="bold" />
               <div className="pl-3 w-[250px]">
@@ -169,7 +169,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'history-order' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Lịch sử đơn hàng</div>
@@ -181,7 +181,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'member' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Cá nhân</div>
@@ -193,7 +193,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'contact' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Liên hệ và góp ý</div>
@@ -205,7 +205,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'blog' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <HouseLine onClick={goHome} size={20} color="#ffffff" weight="bold" />
               <div className="pl-3 w-[250px]">
@@ -227,7 +227,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'article' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Bài viết</div>
@@ -239,7 +239,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'membership' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Hạng thành viên</div>
@@ -251,7 +251,7 @@ const HeaderCustom = () => {
       {
         activeTab == 'coupon' &&
         <div className="fixed w-full z-[999]">
-          <div className="flex bg-[#000] p-2">
+          <div className="flex bg-[#000] p-2 h-[44px]">
             <div className="text-[#fff] text-[14px] flex items-center">
               <CaretLeft onClick={goBack} size={20} color="#ffffff" weight="light" />
               <div className="font-bold">Ưu đãi của tôi</div>

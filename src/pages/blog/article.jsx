@@ -14,7 +14,7 @@ const Article = () => {
 
   return (
     <>
-      <div className="mt-[36px] overflow-y-auto bg-[#f3f3f3] h-[calc(100vh-36px)]" >
+      <div className="mt-[44px] overflow-y-auto bg-[#f3f3f3] h-[calc(100vh-36px)]" >
         <div>
           <img src={article ?.images[0] || ""} className="object-cover w-full h-[160px]" />
         </div>

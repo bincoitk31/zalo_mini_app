@@ -29,7 +29,7 @@ const Search = () => {
 
   return (
     <>
-    <div className="absolute top-[36px] bg-[#fff] h-[calc(100vh-89px)] overflow-y-auto w-full">
+    <div className="absolute top-[44px] bg-[#fff] h-[calc(100vh-89px)] overflow-y-auto w-full">
       <div className="px-4 pt-4">{total} kết quả tìm kiếm với từ khóa: '{term}'</div>
       <div>
         <div className="px-3">

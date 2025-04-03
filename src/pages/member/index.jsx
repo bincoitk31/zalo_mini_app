@@ -18,7 +18,7 @@ const Member = () => {
   }
 
   return (
-    <div className="absolute top-[36px] h-[calc(100vh-100px)] overflow-y-auto w-full">
+    <div className="absolute top-[44px] h-[calc(100vh-100px)] overflow-y-auto w-full">
       <div className="bg-[#fff] m-2 p-3 rounded-lg">
         <Infomation />
       </div>

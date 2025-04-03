@@ -55,7 +55,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="absolute top-[36px] bg-[#fff] h-[calc(100vh-89px)] overflow-y-auto w-full">
+      <div className="absolute top-[44px] bg-[#fff] h-[calc(100vh-89px)] overflow-y-auto w-full">
         <div className="flex overflow-x-auto bg-[#f3f3f3] pt-1">
           {
             categories.map(c => (

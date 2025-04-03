@@ -372,7 +372,7 @@ const Checkout = () => {
 
   return (
     <>
-    <div className="absolute top-[36px] bg-[#fff] h-[calc(100vh-133px)] overflow-y-auto w-full">
+    <div className="absolute top-[44px] bg-[#fff] h-[calc(100vh-133px)] overflow-y-auto w-full">
       <div className="p-3 border-b border-b-solid border-b-[#dcdcdc]">
         <div className="font-bold pb-3">Hình thức giao hàng</div>
         <div className="flex justify-between">

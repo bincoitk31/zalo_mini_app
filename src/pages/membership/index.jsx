@@ -28,7 +28,7 @@ const Membership = () => {
   }, [customer])
 
   return (
-    <div className="absolute top-[36px] h-[calc(100vh-36px)] overflow-y-auto w-full">
+    <div className="absolute top-[44px] h-[calc(100vh-36px)] overflow-y-auto w-full">
       {
         customer ?.id
         ?

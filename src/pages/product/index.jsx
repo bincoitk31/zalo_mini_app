@@ -115,7 +115,7 @@ const Product = () => {
 
   return (
     <>
-      <div className="mt-[36px] overflow-y-auto bg-[#fff] h-[calc(100vh-89px)]" >
+      <div className="mt-[44px] overflow-y-auto bg-[#fff] h-[calc(100vh-89px)]" >
         <SliderProduct product={productView} images={ productView && productView ?.variations ? productView.variations[0].images : []} />
 
         <div className="px-2">

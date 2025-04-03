@@ -115,7 +115,7 @@ const Blog = () => {
 
   return (
     <>
-      <div className="absolute top-[36px] bg-[#fff] h-[calc(100vh-36px)] overflow-y-auto w-full">
+      <div className="absolute top-[44px] bg-[#fff] h-[calc(100vh-36px)] overflow-y-auto w-full">
         <Tabs activeKey={activeKey} className="custom-tabs" defaultActiveKey="-1" items={items} onChange={onChange} />
         <Drawer
           placement={'right'}

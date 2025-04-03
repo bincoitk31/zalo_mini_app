@@ -3,9 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { activeTabState } from "../../recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { drawerAddCartState, typeAddCartState } from "../../recoil/product";
-import { openCartState, openAddAddressState } from "../../recoil/order";
+import { openCartState, openAddAddressState, cartItemsState } from "../../recoil/order";
 import { memberZaloState } from "../../recoil/member";
-import { Button } from 'antd'
+import { Button, Badge } from 'antd'
 import { HouseLine, ListMagnifyingGlass, ShoppingBag, User, ChatCircleDots } from '@phosphor-icons/react'
 import { openChat, getUserID } from "zmp-sdk/apis";
 import AddToCart from "../add-to-cart";
@@ -18,6 +18,7 @@ const FooterCustom = (props) => {
   const [openCart, setOpenCart] = useRecoilState(openCartState)
   const [openAddAddress, setOpenAddAddress] = useRecoilState(openAddAddressState)
   const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
+  const cartItems = useRecoilValue(cartItemsState)
 
   const [userId, setUserId] = useState()
 
@@ -78,7 +79,9 @@ const FooterCustom = (props) => {
                 <div className="text-[12px] text-[#797979]">Danh mục</div>
               </div>
               <div onClick={() => goTo("cart")} className="flex-1 flex flex-col items-center">
-                <ShoppingBag size={24} color="#797979" weight="light" />
+                <Badge count={(cartItems|| []).length} size="small">
+                  <ShoppingBag size={24} color="#797979" weight="light" />
+                </Badge>
                 <div className="text-[12px] text-[#797979]">Giỏ hàng</div>
               </div>
               <div onClick={() => openChatScreen()} className="flex-1 flex flex-col items-center">

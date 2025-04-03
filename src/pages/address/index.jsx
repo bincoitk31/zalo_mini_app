@@ -43,7 +43,7 @@ const Address = () => {
 
   return(
     <>
-      <div className="absolute top-[36px] bg-[#f3f3f3] h-[calc(100vh-89px)] overflow-y-auto w-full">
+      <div className="absolute top-[44px] bg-[#f3f3f3] h-[calc(100vh-89px)] overflow-y-auto w-full">
         <div className="px-3 pt-4">
           <div className="font-bold">Đơn hàng sẽ được gửi đến địa chỉ này !</div>
             { listAddress.length > 0 &&

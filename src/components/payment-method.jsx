@@ -5,14 +5,14 @@ import { totalPriceState, cartItemsState } from "../recoil/order";
 import { useRecoilValue } from "recoil";
 
 const PaymentMethod = () => {
-  const [payment, setPayment] = useState({logo: 'https://stc-zmp.zadn.vn/payment/cod.png', displayName: "Thanh toán khi nhận hàng - Sandbox"})
+  const [payment, setPayment] = useState({logo: 'https://stc-zmp.zadn.vn/payment/cod.png', displayName: "Thanh toán khi nhận hàng"})
   const totalPrice = useRecoilValue(totalPriceState)
   const cartItems = useRecoilValue(cartItemsState)
 
   const handlePaymentMethod = () => {
     Payment.selectPaymentMethod({
       channels: [
-        { method: "COD_SANDBOX" },
+        { method: "COD" },
       ],
       success: (data) => {
         // Lựa chọn phương thức thành công
