@@ -15,20 +15,16 @@ app.post('/api/run_command', (req, res) => {
       return res.status(400).json({ error: 'Command is required' });
   }
 
-  console.log(req.body, "BODYYYYYY")
-  
   process.env.VITE_SITE_ID = site_id
   process.env.VITE_ZALO_SECRET_KEY = zalo_secret_key
   process.env.VITE_ZALO_OA_ID = zalo_oa_id
   process.env.VITE_APP_ID = app_id
   process.env.VITE_ZALO_PRIVATE_KEY = zalo_private_key
-  process.env.VITE_ENV = "STAGING"
+  process.env.VITE_ENV = env
 
   //write settings to app-settings.json
 
   fs.writeFileSync('app-settings.json', JSON.stringify(settings, null, 2), 'utf8');
-
-  console.log(JSON.stringify(settings, null, 2), "settinggg")
 
   runDeployment(command, description, app_id, access_token).then((output) => {
     console.log("outputtt", output)
@@ -152,8 +148,6 @@ async function runDeployment(command, description, app_id, access_token) {
           });
         }
       })
-
-      
   });
 }
 
