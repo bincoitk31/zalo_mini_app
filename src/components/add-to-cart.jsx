@@ -7,6 +7,7 @@ import { formatNumber } from "../utils/formatNumber"
 import { X } from '@phosphor-icons/react'
 import { useNavigate } from "react-router-dom"
 import QuantityProduct from "./quantity-product"
+import { resizeLink } from "../utils/tools"
 
 const AddToCart = () => {
   const navigate = useNavigate()
@@ -23,7 +24,6 @@ const AddToCart = () => {
     setDrawerAddCart(false)
   }
 
-  
   const getRetailPrice = () => {
     let variations = product ?.variations || []
     let arrayPrice = variations.map(el => el.retail_price)
@@ -33,10 +33,6 @@ const AddToCart = () => {
     let result = (min == max || arrayPrice.length == 0)  ? formatNumber(max) : `${formatNumber(min)} - ${formatNumber(max)}`
 
     return result
-  }
-    
-  const renderImg = () => {
-   return product ?.variations[0] ?.images[0] || ''
   }
 
   const handleSelectAttribute = (name, value) => {
@@ -171,7 +167,7 @@ const AddToCart = () => {
        <div>
           <div className="flex p-3 border-b border-b-solid border-b-[#dcdcdc]">
             <div className="w-[56px] h-[56px]">
-              <img className="w-full h-full object-cover rounded-lg" src={renderImg()} />
+              <img className="w-full h-full object-cover rounded-lg" src={resizeLink(product ?.variations[0] ?.images[0] || '')} />
             </div>
             <div className="flex-1 pl-2">
               <div className="font-medium">{product.name}</div>

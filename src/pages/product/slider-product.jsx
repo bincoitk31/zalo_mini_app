@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import {Carousel, Modal} from 'antd'
 import { CaretLeft, ShareNetwork } from "@phosphor-icons/react"
 import { openShareSheet } from "zmp-sdk/apis"
+import { resizeLink } from "../../utils/tools"
 
 const SliderProduct = ({images, product}) => {
   const [current, setCurrent] = useState(0)
@@ -13,7 +14,7 @@ const SliderProduct = ({images, product}) => {
     return (
       images.map((src, idx) => (
         <div key={idx} className="w-full h-[360px]">
-          <img src={src} className="w-full h-full object-cover" />
+          <img src={resizeLink(src)} className="w-full h-full object-cover" />
         </div>
       ))
     )

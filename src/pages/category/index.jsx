@@ -7,6 +7,7 @@ import { Button } from "antd";
 import { cartItemsState, totalPriceState, openCartState } from "../../recoil/order";
 import { formatNumber } from "../../utils/formatNumber";
 import { LoadingOutlined } from '@ant-design/icons'
+import { resizeLink } from "../../utils/tools"
 import CategoryItems from "../../components/category-items"
 
 const Category = () => {
@@ -29,7 +30,6 @@ const Category = () => {
     categoryStore('getCategoryById', {id})
     .then(res => {
       if (res.status == 200) setProducts(res.data.products)
-      console.log(res, "11111")
     })
     .finally(() => setLoading(false))
   }
@@ -65,7 +65,7 @@ const Category = () => {
               key={c.id}
               >
                 <div className="p-2 flex items-center justify-center w-[62px] h-[62px]">
-                  <img className="w-full h-full object-cover rounded-md" src={c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"} />
+                  <img className="w-full h-full object-cover rounded-md" src={resizeLink(c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png")} />
                 </div>
                 <div className="text-zinc-500 text-truncate-2-line text-[12px] text-center">{c.name}</div>
               </div>

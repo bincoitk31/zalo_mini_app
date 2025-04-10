@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { blogStore } from "../../recoil/blog"
 import { Tabs, Drawer } from "antd"
 import { CaretLeft } from "@phosphor-icons/react"
+import { resizeLink } from "../../utils/tools"
 
 import ArticleItem from "../../components/article-item"
 
@@ -73,7 +74,7 @@ const Blog = () => {
                 blogs.map(el => (
                   <div className="border border-solid border-[#eee] rounded-lg overflow-hidden" onClick={() => goToArticles(el.id)}>
                     <div>
-                      <img src={el.image || ""} className="object-cover w-full h-[80px]" />
+                      <img src={resizeLink(el.image || "")} className="object-cover w-full h-[80px]" />
                     </div>
                     <div className="px-2 pt-2 pb-2">
                       <div className="font-medium text-truncate-2-line pb-1 h-10">{el.name}</div>

@@ -4,6 +4,7 @@ import { useRecoilValue, useRecoilState } from "recoil"
 import { formatNumber } from ".././utils/formatNumber"
 import { CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { resizeLink } from "../utils/tools"
 import Quantity from "./quantity";
 
 const CartItems = () => {
@@ -70,7 +71,7 @@ const CartItems = () => {
           <div className={idx == cartItems.length - 1 ? 'flex py-4 justify-between' : 'flex py-4 justify-between border-b boder-b-solid border-b-[#f2f2f2]'} key={idx}>
             <div className="flex flex-1">
               <div className="min-w-[60px] w-[60px] h-[60px]" onClick={() => navigate(`/product/${el.product_id}`)}>
-                <img className="w-full h-full rounded-md" src={el ?.images[0]} />
+                <img className="w-full h-full rounded-md" src={resizeLink(el ?.images[0])} />
               </div>
               <div className="px-2 flex flex-col justify-between max-w-[190px]">
                 <div className="pb-1 font-medium truncate" onClick={() => navigate(`/product/${el.product_id}`)}>{el.name}</div>

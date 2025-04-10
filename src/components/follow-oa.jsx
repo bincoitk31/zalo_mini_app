@@ -2,7 +2,7 @@ import { Button } from "antd"
 import { useRecoilState } from "recoil"
 import { followOA, unfollowOA, interactOA } from "zmp-sdk/apis"
 import { memberZaloState } from "../recoil/member"
-import { useEffect } from "react"
+import { resizeLink } from "../utils/tools"
 import settings from "../../app-settings.json"
 
 const FollowOA = () => {
@@ -43,7 +43,7 @@ const FollowOA = () => {
         <div className="border-b border-b-solid border-[#fff] pb-2">Quan tâm OA để nhận các đặc quyền ưu đãi </div>
         <div className="flex justify-between items-center pt-2">
           <div className="flex items-center">
-            <img className="w-[30px] h-[30px] rounded-full bg-[#fff]" src={ ZALO_OA_LOGO } />
+            <img className="w-[30px] h-[30px] rounded-full bg-[#fff]" src={ resizeLink(ZALO_OA_LOGO) } />
             <div className="font-bold pl-2"> { ZALO_OA_NAME } </div>
           </div>
           {

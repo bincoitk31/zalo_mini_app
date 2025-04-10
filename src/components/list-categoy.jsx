@@ -5,6 +5,7 @@ import { categoriesState, categoryChooseState } from "../recoil/category"
 import { useNavigate, Link } from "react-router-dom";
 import { RightOutlined } from "@ant-design/icons";
 import { activeTabState } from "../recoil/atoms";
+import { resizeLink } from "../utils/tools"
 
 const ListCategory = () => {
   const navigate = useNavigate()
@@ -41,7 +42,7 @@ const ListCategory = () => {
             key={c.id}
             >
               <div className="flex items-center justify-center w-[50px]">
-                <img className="w-[50px] h-[50px] rounded-full" src={c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"} />
+                <img className="w-[50px] h-[50px] rounded-full" src={ resizeLink(c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png")} />
               </div>
               <div className="truncate text-center">{c.name}</div>
             </div>

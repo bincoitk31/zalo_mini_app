@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { productState, drawerAddCartState, typeAddCartState } from "../recoil/product";
 import { formatNumber } from "../utils/formatNumber";
-import {PlusCircle} from "@phosphor-icons/react"
+import { PlusCircle } from "@phosphor-icons/react"
+import { resizeLink } from "../utils/tools";
+import { Spin } from "antd";
+import LazyImageWithSkeleton from "./lazy-image";
 
 const ProductItem = ({product}) => {
   const navigate = useNavigate()
@@ -51,7 +54,8 @@ const ProductItem = ({product}) => {
   return (
     <div className="border border-solid border-[#eee] rounded-lg overflow-hidden" onClick={() => goToProduct(product.id)}>
       <div>
-        <img src={product?.variations?.[0]?.images?.[0] || ""} className="object-cover w-full h-[160px]" />
+        <LazyImageWithSkeleton src={product?.variations?.[0]?.images?.[0]} className={"object-cover w-full h-[160px]"}/>
+        {/* <img src={resizeLink(product?.variations?.[0]?.images?.[0] || "")} className="object-cover w-full h-[160px]" /> */}
       </div>
       <div className="px-2 pt-2 pb-4">
         <div className="font-medium text-truncate-2-line pb-1 h-11">{product.name}</div>

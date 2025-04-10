@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { Eye } from '@phosphor-icons/react'
 import { articleState } from "../recoil/blog"
 import { useSetRecoilState } from "recoil"
+import { resizeLink } from "../utils/tools"
 
 const ArticleItem = ({article}) => {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ const ArticleItem = ({article}) => {
   return (
     <div className="border border-solid border-[#eee] rounded-lg overflow-hidden" onClick={() => goToArticle(article.id)}>
     <div>
-      <img src={article.images[0] || ""} className="object-cover w-full h-[80px]" />
+      <img src={resizeLink(article.images[0] || "")} className="object-cover w-full h-[80px]" />
     </div>
     <div className="px-2 pt-2 pb-2">
       <div className="font-medium text-truncate-2-line pb-1 h-11">{article.name}</div>

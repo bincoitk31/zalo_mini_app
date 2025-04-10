@@ -1,5 +1,6 @@
 import React from "react";
-import { Page, Swiper, Box, Text } from "zmp-ui";
+import {Swiper} from "zmp-ui";
+import { resizeLink } from "../utils/tools"
 import settings from '../../app-settings.json'
 
 const Carousel = () => {
@@ -11,7 +12,7 @@ const Carousel = () => {
           <Swiper.Slide key={idx}>
             <img
               className="slide-img h-[200px] w-full object-cover"
-              src={el.url}
+              src={resizeLink(el.url)}
               alt={`slide-${idx}`}
             />
           </Swiper.Slide>
