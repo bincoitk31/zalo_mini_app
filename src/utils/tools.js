@@ -69,8 +69,6 @@ export const parseInfoLink = link => {
   link.split('-').filter(e => /^[w|h|l|t]\:/.test(e)).map(e => {
     let [key, value] = e.split(':')
 
-    console.log("key, value::",key, value)
-
     if(['w', 'h'].includes(key)) value = value < 400 ? parseInt(value) + 400 : parseInt(value) * 2
     if(key == 'l') value = Math.round(parseInt(value) / 1e3)
     if(key == 't') value = value.split('.')[0]
@@ -85,9 +83,10 @@ export const resizeLinkKeepSize = (link)  => {
   if(typeof link != 'string') return {}
 
   const info = parseInfoLink(link)
-
   // If image size < 300kb or image type is webp animated then uncompress
   if(info['l'] < 300 || link.includes('-ANIM')) return { webp: convertStaticToCDN(link) }
+
+  if (isEmpty(info)) return resizeOldLink(link)
 
   let splitted
   let bucket = BUCKET
@@ -135,3 +134,67 @@ export const convertStaticToCDN = url => {
     return url
   }
 }
+
+export const resizeOldLink = (link = '', width = 300, height = 300, keep_resolution = false) => {
+  if (!link || typeof link !== 'string') return {}
+  if (width == 0 || !isFinite(width)) width = 300
+  if (height == 0 || !isFinite(height)) height = 300
+
+  width = Math.ceil(width / 50) * 50
+  height = Math.ceil(height / 50) * 50
+
+  const resize = width < 400 || height < 400 ? 400 : 0
+
+  const w = resize ? width + resize : width * 2
+  const h = resize ? height + resize : height * 2
+
+  const resizeFlag = keep_resolution ? 'fwebp0' : 'fwebp'
+
+  const H = Math.ceil(Math.max(h, w / width * height))
+  const W = Math.ceil(Math.max(w, h / height * width))
+
+  let splitted
+  let bucket = BUCKET
+
+  if (link.includes('web-media')) bucket = 'web-media'
+  if (link.includes('web_content')) bucket = 'web_content'
+  if (link.includes('user-content.pancake.vn')) bucket = 'user-content.pancake.vn'
+  if (link.includes('user-content-23.pancake.vn')) bucket = 'user-content-23.pancake.vn'
+
+  splitted = link.split(bucket)
+
+  if (splitted.length === 2) {
+    const isGif = /\.gif$/.test(link)
+    if (isGif) {
+      const cdn = `${HOST_CDN}/${BUCKET_MAPPING[bucket]}/dlc${splitted[1]}`
+      return { cdn }
+    }
+
+    const [ext] = splitted[1].split('.').reverse().map(e => (e || '').toLowerCase())
+
+    if (['png', 'jpg', 'jpeg', 'webp', 'jfif'].includes(ext)) {
+      const cdn = `${HOST_CDN}/${BUCKET_MAPPING[bucket]}/s${W}x${H}${splitted[1]}`
+      const webp = `${HOST_CDN}/${BUCKET_MAPPING[bucket]}/s${W}x${H}/${resizeFlag}${splitted[1]}`
+
+      return { cdn, webp }
+    }
+  }
+
+  if (splitted.length === 1 && link.includes('https://content.pancake.vn')) {
+    const webp = link.replace(/(https:\/\/content.pancake.vn\/2(-[0-9]{2})?\/)(.+)/, (x, x1, _, x3) => {
+      return `${x1}s${w}x${h}/${resizeFlag}/${x3}`
+    })
+
+    return { webp }
+  }
+
+  return { cdn: link }
+}
+
+export const isEmpty = (val) => {
+  if (val == null) return true; // null or undefined
+  if (typeof val === 'string' && val.trim() === '') return true;
+  if (Array.isArray(val) && val.length === 0) return true;
+  if (typeof val === 'object' && Object.keys(val).length === 0) return true;
+  return false;
+};

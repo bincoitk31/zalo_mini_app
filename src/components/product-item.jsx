@@ -4,8 +4,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { productState, drawerAddCartState, typeAddCartState } from "../recoil/product";
 import { formatNumber } from "../utils/formatNumber";
 import { PlusCircle } from "@phosphor-icons/react"
-import { resizeLink } from "../utils/tools";
-import { Spin } from "antd";
 import LazyImageWithSkeleton from "./lazy-image";
 
 const ProductItem = ({product}) => {
