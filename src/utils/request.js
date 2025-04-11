@@ -40,3 +40,13 @@ export const getApiAxios = async (url, config = {}) => {
     return error; // Throw the error to be handled by the calling code
   }
 }
+
+export const postApiAxios = async (url, data, config = {}) => {
+  try {
+    const response = await axios.post(url, data, config);
+    return response; // Return the data from the response
+  } catch (error) {
+    console.error("POST Request Error:", error.message);
+    return error; // Throw the error to be handled by the calling code
+  }
+};

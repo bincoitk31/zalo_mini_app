@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil"
 import { customerInfoState, cartItemsState, totalPriceState, amountPriceState, discountCouponState } from "../../recoil/order"
 import { Button, Input, message, Select, Space, ConfigProvider } from "antd"
-import { postApi } from "../../utils/request"
+import { postApi, postApiAxios } from "../../utils/request"
 import { formatNumber } from "../../utils/formatNumber"
 import { useNavigate } from "react-router-dom"
 import { validatePhoneNumber, isValidEmail } from "../../utils/tools"
@@ -24,9 +24,6 @@ const Checkout = () => {
   const amountPrice = useRecoilValue(amountPriceState)
   const setOpenAddAddress = useSetRecoilState(openAddAddressState)
   const [customer, setCustomer] = useRecoilState(customerState)
-
-  console.log(import.meta.env.VITE_APP_ID, "app_iddd")
-
   const navigate = useNavigate()
   const country_id = 84
   const [customerInfo, setCustomerInfo] = useRecoilState(customerInfoState)
@@ -123,6 +120,25 @@ const Checkout = () => {
     return items
   }
 
+  const updateOrderZalo = async (zalo_order_id) => {
+    const url = `https://payment-mini.zalo.me/api/transaction/${import.meta.env.VITE_APP_ID}/cod-callback-payment`
+    const privateKey = import.meta.env.VITE_ZALO_PRIVATE_KEY
+    const appId = import.meta.env.VITE_APP_ID
+    const orderId = zalo_order_id
+    const resultCode = -1
+    const dataMac = `appId=${appId}&orderId=${orderId}&resultCode=${resultCode}&privateKey=${privateKey}`
+    const mac = CryptoJS.HmacSHA256(dataMac, privateKey).toString()
+
+    let data = {
+      appId,
+      orderId,
+      resultCode,
+      mac
+    }
+
+    const res = await postApiAxios(url, data)
+  }
+
   const handleOrder = () => {
     if (!customerInfo ?.full_name) return message.error("Tên không được để trống!")
     if (!customerInfo ?.phone_number) return message.error("Số điện thoại không được để trống!")
@@ -134,7 +150,6 @@ const Checkout = () => {
   }
 
   const createOrder = async (zalo_order_id) => {
-    console.log(customerInfo, "cusstomerinfoooo")
     let data = {
       order_items: setOrderItems(),
       shipping_address: {...customerInfo, note: note},
@@ -151,19 +166,52 @@ const Checkout = () => {
       }
     }
 
-
     const res = await postApi("/orders/quick_order", data)
     console.log(res, "res orderrrr")
     if (res.status == 200) {
       setCustomerInfo(customerInfo)
+      afterSubmitSuccess()
     } else {
-      message.error("Lỗi đặt hàng")
+      updateOrderZalo(zalo_order_id)
+      const result = res.response.data.reason
+
+      if(res.response.status == 500) {
+        message.error("Lỗi hệ thống không xác định")
+      }
+      else if(typeof result === 'object' && result[0]) {
+        const { message_code } = result[0]
+        if(message_code == 2003) {
+          message.error("Lỗi đặt sản phẩm đang hết hàng!")
+        }
+        if(message_code == 'variation_000') {
+          message.error("Lỗi đặt sản phẩm không tồn tại")
+        }
+      }
+      else if (result?.message_code == 2007) {
+        message.error("Sản phẩm tặng kèm đang hết hàng")
+      }
+      else if(result?.message_code == 'forbidden_001') {
+        message.error("Số điện thoại đã bị chặn")
+      }
+      else if(result?.code == 281) {
+        message.error(result.message)
+      }
+      else if(result?.message_code == 1001) {
+        message.error("Số điện thoại và địa chỉ đặt hàng không hợp lệ!")
+      }
+      else if(result?.message_code == 415) {
+        message.error(result.message)
+      }
+      else {
+        message.error(res.response.data.reason)
+      }
     }
+    
+
   }
 
   const createOrderZalo = () => {
     setLoadingOrder(true)
-
     const params = {
       amount: totalPrice,
       desc: `Thanh toán ${totalPrice}`,
@@ -211,7 +259,7 @@ const Checkout = () => {
           // Tạo đơn hàng thành công
           // Hệ thống tự động chuyển sang trang thanh toán.
           const { orderId } = data;
-          createOrder(orderId)
+          //createOrder(orderId)
         },
         fail: (err) => {
           // Tạo đơn hàng lỗi
@@ -330,7 +378,6 @@ const Checkout = () => {
           success: (rs) => {
             // Kết quả giao dịch khi gọi api thành công
             const { orderId, resultCode, msg, transTime, createdAt } = rs;
-            console.log(rs, "rssssss")
             //createOrder(orderId)
           },
           fail: (err) => {
@@ -342,9 +389,14 @@ const Checkout = () => {
     });
 
     events.on(EventName.PaymentClose, (data) => {
-      afterSubmitSuccess()
+      
+      // afterSubmitSuccess()
       const resultCode = data?.resultCode;
-      console.log(data, "Close App")
+      if (data ?.orderId) {
+        createOrder(data.orderId)
+      } else {
+        message.error("Lỗi đặt hàng")
+      }
       // kiểm tra resultCode trả về từ sự kiện PaymentClose
       // 0: Đang xử lý
       // 1: Thành công
@@ -475,7 +527,7 @@ const Checkout = () => {
             <div className="font-bold">{formatNumber(amountPrice)}</div>
           </div>
           <div className="flex w-full">
-            <Button disabled={cartItems.length == 0 ? true : false} color="default" variant="solid" className="w-full h-[36px] my-2 font-medium rounded-[4px]" onClick={handleOrder}> Đặt hàng</Button>
+            <Button disabled={cartItems.length == 0 ? true : false} color="default" variant="solid" className="w-full h-[36px] my-2 font-medium rounded-[4px]" onClick={() => handleOrder()}> Đặt hàng</Button>
           </div>
         </div>
       </div>
