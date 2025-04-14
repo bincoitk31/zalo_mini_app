@@ -104,11 +104,11 @@ const HomePage = () => {
     <Page className="page">
       <div className="flex h-[52px] bg-[#000] p-2">
         <div>
-          <img src={memberZalo.avatar} className="w-[36px] h-[36px] rounded-full"/>
+          <img src={customer.avatar || 'https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png'} className="w-[36px] h-[36px] rounded-full"/>
         </div>
         <div className="pl-2 text-[#fff] text-[12px]">
           <div>Xin chào,</div>
-          <div className="font-bold">{memberZalo.name}</div>
+          <div className="font-bold">{customer.name || 'Guest'}</div>
         </div>
       </div>
       {/* <div className="relative h-[100px] bg-[#fff]">

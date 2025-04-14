@@ -1,8 +1,9 @@
 import { Button } from "antd"
 import { useRecoilState } from "recoil"
 import { followOA, unfollowOA, interactOA } from "zmp-sdk/apis"
-import { memberZaloState } from "../recoil/member"
-import { resizeLink } from "../utils/tools"
+import { memberZaloState, customerState } from "../recoil/member"
+import { resizeLink, setDataToStorage } from "../utils/tools"
+import { postApi } from "../utils/request"
 import settings from "../../app-settings.json"
 
 const FollowOA = () => {
@@ -10,6 +11,21 @@ const FollowOA = () => {
   const ZALO_OA_NAME = settings ?.zalo_oa_name
   const ZALO_OA_LOGO = settings ?.zalo_oa_logo || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"
   const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
+  const [customer, setCustomer] = useRecoilState(customerState)
+
+  const updateCustomer = async (followedOA) => {
+    try {
+      let url = "/login"
+      let data = {...customer, zalo_followedOA: followedOA}
+      const res = await postApi(url, data)
+      if (res.status == 200) {
+        setCustomer(res.data.customer)
+        setDataToStorage('customerStore', res.data.customer)
+      }
+    } catch(error) {
+      console.log(error, "Error login storecake")
+    }
+  }
 
   const unfollow = async () => {
     try {
@@ -17,6 +33,9 @@ const FollowOA = () => {
         id: ZALO_OA_ID
       });
       setMemberZalo({...memberZalo, followedOA: false})
+      if (customer) {
+        updateCustomer(false)
+      }
       console.log(res, "unfollow oa_id")
     } catch (error) {
       // xử lý khi gọi api thất bại
@@ -31,6 +50,9 @@ const FollowOA = () => {
       });
       console.log(res, "res follow OA")
       setMemberZalo({...memberZalo, followedOA: true})
+      if (customer) {
+        updateCustomer(true)
+      }
     } catch (error) {
       // xử lý khi gọi api thất bại
       console.log(error);

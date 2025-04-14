@@ -62,7 +62,8 @@ const Infomation = () => {
           phone_number: formatPhoneNumber(res.data.data.number),
           avatar: userInfo.avatar,
           name: userInfo.name,
-          zalo_id: userInfo.idByOA
+          zalo_id: userInfo.idByOA,
+          zalo_followOA: userInfo.followedOA
         }
         loginStorecake(data)
 

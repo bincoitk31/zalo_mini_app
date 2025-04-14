@@ -2,7 +2,7 @@ import React, { act, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { activeTabState } from "../../recoil/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { memberZaloState } from "../../recoil/member";
+import { memberZaloState, customerState } from "../../recoil/member";
 import { CaretLeft, HouseLine, MagnifyingGlass } from '@phosphor-icons/react';
 import { Input } from "antd";
 import { termSearchState } from "../../recoil/category";
@@ -14,6 +14,7 @@ const HeaderCustom = () => {
   const [isVisible, setIsVisible] = useState(false)
   const memberZalo = useRecoilValue(memberZaloState)
   const [term, setTerm] = useRecoilState(termSearchState)
+  const [customer, setCustomer] = useRecoilState(customerState)
 
   const handleScroll = () => {
     const page = document.querySelector('.zaui-page')
@@ -77,10 +78,10 @@ const HeaderCustom = () => {
         <div className="fixed w-full z-[999]" style={{ display: isVisible ? "block" : "none"}}>
           <div className="flex bg-[#000] p-2">
             <div>
-              <img src={memberZalo.avatar} className="w-[36px] h-[36px] rounded-full"/>
+              <img src={customer.avatar || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"} className="w-[36px] h-[36px] rounded-full"/>
             </div>
             <div className="pl-2 text-[#fff] text-[12px] flex items-center">
-              <div className="font-bold">{memberZalo.name}</div>
+              <div className="font-bold">{customer.name || 'Guest'}</div>
             </div>
           </div>
         </div>
