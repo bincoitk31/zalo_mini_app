@@ -25,7 +25,7 @@ const LazyImageWithSkeleton = ({ src, alt, className = '' }) => {
       )}
       {visible && (
         <img
-          src={resizeLink(src)}
+          src={resizeLink(src, 190, 160)}
           alt={alt}
           onLoad={() => setLoaded(true)}
           className={`w-full h-full object-cover rounded-md transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
