@@ -88,8 +88,8 @@ export const resizeLinkKeepSize = (link, w, h)  => {
   // If image size < 300kb or image type is webp animated then uncompress
   if(info['l'] < 300 || link.includes('-ANIM')) return { webp: convertStaticToCDN(link) }
 
-  if (isEmpty(info)) return resizeOldLink(link)
-
+  // if (isEmpty(info)) return resizeOldLink(link)
+  return resizeOldLink(link, w, h)
   let splitted
   let bucket = BUCKET
 
