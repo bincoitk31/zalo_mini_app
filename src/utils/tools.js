@@ -49,8 +49,8 @@ const BUCKET_MAPPING = {
   'user-content-23.pancake.vn': '2-23'
 }
 
-export const resizeLink = (link) => {
-  const { cdn, webp } = resizeLinkKeepSize(link)
+export const resizeLink = (link, w = 160, h = 160) => {
+  const { cdn, webp } = resizeLinkKeepSize(link, w, h)
   return cdn || webp
 }
 
@@ -61,7 +61,7 @@ export const getUrlFromBackground = background => {
   return match?.[1]
 }
 
-export const parseInfoLink = link => {
+export const parseInfoLink = (link, width = 160, height = 160) => {
   if(typeof link != 'string') return {}
 
   let info = {}
@@ -69,7 +69,9 @@ export const parseInfoLink = link => {
   link.split('-').filter(e => /^[w|h|l|t]\:/.test(e)).map(e => {
     let [key, value] = e.split(':')
 
-    if(['w', 'h'].includes(key)) value = value < 400 ? parseInt(value) + 400 : parseInt(value) * 2
+    // if(['w', 'h'].includes(key)) value = value < 400 ? parseInt(value) + 400 : parseInt(value) * 2
+    if(key == 'w') value = width < 400 ? parseInt(width) + 400 : parseInt(width) * 2
+    if(key == 'h') value = height < 400 ? parseInt(height) + 400 : parseInt(height) * 2
     if(key == 'l') value = Math.round(parseInt(value) / 1e3)
     if(key == 't') value = value.split('.')[0]
 
@@ -79,10 +81,10 @@ export const parseInfoLink = link => {
   return info
 }
 
-export const resizeLinkKeepSize = (link)  => {
+export const resizeLinkKeepSize = (link, w, h)  => {
   if(typeof link != 'string') return {}
 
-  const info = parseInfoLink(link)
+  const info = parseInfoLink(link, w, h)
   // If image size < 300kb or image type is webp animated then uncompress
   if(info['l'] < 300 || link.includes('-ANIM')) return { webp: convertStaticToCDN(link) }
 

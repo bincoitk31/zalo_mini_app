@@ -12,7 +12,7 @@ const Carousel = () => {
           <Swiper.Slide key={idx}>
             <img
               className="slide-img h-[200px] w-full object-cover"
-              src={resizeLink(el.url)}
+              src={resizeLink(el.url, 400, 200)}
               alt={`slide-${idx}`}
             />
           </Swiper.Slide>
