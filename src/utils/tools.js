@@ -1,4 +1,6 @@
 import { nativeStorage } from "zmp-sdk/apis"
+import settings from "../../app-settings.json"
+const LESSER_COMPRESSION = settings ?.lesser_compression || false
 
 export const validatePhoneNumber = (value) => {
   const cleanPhoneNumber = value.replace(/\s+/g, "").trim();
@@ -93,7 +95,8 @@ const parseInfoLink = (link) => {
   return info
 }
 
-export const resizeLink = (link = '', width = 300, height = 300, keep_solution = false) => {
+export const resizeLink = (link = '', width = 300, height = 300) => {
+  let keep_solution = LESSER_COMPRESSION
   if (!link || typeof link !== 'string') return ''
 
   width = ~~width || 300
@@ -179,8 +182,8 @@ export const resizeLink = (link = '', width = 300, height = 300, keep_solution =
       webp = `${HOST_CDN}/${BUCKET_MAPPING[bucket]}/s${w}x${h}/fwebp${splitted[1]}`
 
       return webp
-    } 
-    
+    }
+
     if(ext === 'svg' || info['t'] == 'image/svg+xml') {
       const solution = keep_solution ? 'fwebp0' : 'fwebp'
       const webp = `${HOST_CDN}/${BUCKET_MAPPING[bucket]}/${solution}${splitted[1]}`
@@ -209,7 +212,8 @@ export const resizeLink = (link = '', width = 300, height = 300, keep_solution =
 
 const contents = {}
 
-const updateContent = (url, w, h, keep_solution = false) => {
+const updateContent = (url, w, h) => {
+  let keep_solution = LESSER_COMPRESSION
   let info = contents[url]
 
   if(!info) {
@@ -224,8 +228,13 @@ const updateContent = (url, w, h, keep_solution = false) => {
 
   if(keep_solution) {
     if(w > info.width) {
-      info.width = Math.min(info.maxWidth, w)
-      info.height = Math.min(info.maxHeight, Math.ceil(w / info.ratio))
+      if (w > h) {
+        info.width = Math.min(info.maxWidth, Math.ceil(h * info.ratio))
+        info.height = Math.min(info.maxHeight, h)
+      } else {
+        info.width = Math.min(info.maxWidth, w)
+        info.height = Math.min(info.maxHeight, Math.ceil(w / info.ratio))
+      }
     }
 
     info.width = Math.min(info.width, info.maxWidth)
@@ -238,8 +247,13 @@ const updateContent = (url, w, h, keep_solution = false) => {
   }
 
   if(w > info.widthNormal) {
-    info.widthNormal = Math.max(info.width, Math.min(info.maxWidth, w))
-    info.heightNormal = Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))
+    if (w > h) {
+      info.widthNormal = Math.max(info.width, Math.min(info.maxWidth, Math.ceil(h * info.ratio)))
+      info.heightNormal = Math.max(info.height, Math.min(info.maxHeight, h))
+    } else {
+      info.widthNormal = Math.max(info.width, Math.min(info.maxWidth, w))
+      info.heightNormal = Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))
+    }
   }
 
   info.widthNormal = Math.min(info.maxWidth, info.widthNormal)

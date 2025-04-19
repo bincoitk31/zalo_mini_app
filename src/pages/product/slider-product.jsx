@@ -18,6 +18,16 @@ const SliderProduct = ({images, product}) => {
     )
   }
 
+  const renderNavModal = () => {
+    return (
+      images.map((src, idx) => (
+        <div key={idx} className="w-full h-[360px]">
+          <img src={resizeLink(src, 460, 360)} className="w-full h-full object-contain" />
+        </div>
+      ))
+    )
+  }
+
   const afterChange = (number) => {
     setCurrent(number)
   }
@@ -64,7 +74,7 @@ const SliderProduct = ({images, product}) => {
         <div className="h-full">
           <div className="fixed top-[8px] left-[8px] z-[9999]" onClick={() => setOpen(false)}><CaretLeft size={20} color="#fff" /></div>
           <Carousel afterChange={afterChange} dots={true}>
-            {renderNav()}
+            {renderNavModal()}
           </Carousel>
          
         </div>
