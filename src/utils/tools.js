@@ -152,7 +152,9 @@ export const resizeLink = (link = '', width = 300, height = 300) => {
     ext.toLowerCase()
 
     const info = parseInfoLink(link)
-
+    console.log("info", info)
+    console.log(w,"ww")
+    console.log(h,"hh")
     if(['png', 'jpg', 'jpeg', 'webp', 'jfif'].includes(ext)) {
       if(keep_solution) {
         if(w == 'max' && h == 'max') {
