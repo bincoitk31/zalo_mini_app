@@ -228,12 +228,15 @@ const updateContent = (url, w, h) => {
 
   if(keep_solution) {
     if(w > info.width) {
-      if (w > h) {
-        info.width = Math.min(info.maxWidth, Math.ceil(h * info.ratio))
-        info.height = Math.min(info.maxHeight, h)
+      let wh1 = {width: Math.max(info.width, Math.min(info.maxWidth, w)), height: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))}
+      let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
+
+      if (wh1.width > wh2.width && wh1.height > wh2.height) {
+        info.width = wh1.width
+        info.height = wh1.height
       } else {
-        info.width = Math.min(info.maxWidth, w)
-        info.height = Math.min(info.maxHeight, Math.ceil(w / info.ratio))
+        info.width = wh2.width
+        info.height = wh2.height
       }
     }
 
@@ -247,12 +250,15 @@ const updateContent = (url, w, h) => {
   }
 
   if(w > info.widthNormal) {
-    if (w > h) {
-      info.widthNormal = Math.max(info.width, Math.min(info.maxWidth, Math.ceil(h * info.ratio)))
-      info.heightNormal = Math.max(info.height, Math.min(info.maxHeight, h))
+    let wh1 = {width: Math.max(info.width, Math.min(info.maxWidth, w)), height: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))}
+    let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
+
+    if (wh1.width > wh2.width && wh1.height > wh2.height) {
+      info.widthNormal = wh1.width
+      info.heightNormal = wh1.height
     } else {
-      info.widthNormal = Math.max(info.width, Math.min(info.maxWidth, w))
-      info.heightNormal = Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))
+      info.widthNormal = wh2.width
+      info.heightNormal = wh2.height
     }
   }
 
