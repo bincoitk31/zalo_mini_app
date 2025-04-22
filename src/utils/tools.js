@@ -210,26 +210,21 @@ export const resizeLink = (link = '', width = 300, height = 300) => {
   return convertStaticToCDN(link)
 }
 
-const contents = {}
-
 const updateContent = (url, w, h) => {
   let keep_solution = LESSER_COMPRESSION
-  let info = contents[url]
 
-  if(!info) {
-    info = parseInfoLink(url)
-    info['maxWidth'] = info['width']
-    info['maxHeight'] = info['height']
-    info.ratio = info['width'] / info['height']
-    info['width'] = info['height'] = 0
-    info['widthNormal'] = info['heightNormal'] = 0
-    contents[url] = info
-  }
+
+  let info = parseInfoLink(url)
+  info['maxWidth'] = info['width']
+  info['maxHeight'] = info['height']
+  info.ratio = info['width'] / info['height']
+  info['width'] = info['height'] = 0
+  info['widthNormal'] = info['heightNormal'] = 0
 
   if(keep_solution) {
     if(w > info.width) {
       let wh1 = {width: Math.max(info.width, Math.min(info.maxWidth, w)), height: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))}
-      let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
+      let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(h * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
 
       if (wh1.width > wh2.width && wh1.height > wh2.height) {
         info.width = wh1.width
@@ -251,7 +246,7 @@ const updateContent = (url, w, h) => {
 
   if(w > info.widthNormal) {
     let wh1 = {width: Math.max(info.width, Math.min(info.maxWidth, w)), height: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w / info.ratio)))}
-    let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(w * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
+    let wh2 = {width: Math.max(info.height, Math.min(info.maxHeight, Math.ceil(h * info.ratio))), height: Math.max(info.height, Math.min(info.maxHeight, h))}
 
     if (wh1.width > wh2.width && wh1.height > wh2.height) {
       info.widthNormal = wh1.width
