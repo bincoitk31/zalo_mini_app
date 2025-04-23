@@ -17,6 +17,7 @@ import CartItems from "../../components/cart-items"
 import Bill from "../../components/bill"
 import PaymentMethod from "../../components/payment-method"
 import CryptoJS from "crypto-js";
+import { getDataToStorage, setDataToStorage } from "../../utils/tools"
 
 const Checkout = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
@@ -421,6 +422,16 @@ const Checkout = () => {
       }
     });
   }, [])
+
+  useEffect(() => {
+    const customer_info = getDataToStorage('customer-info')
+    if (!customerInfo) setCustomerInfo(customer_info)
+  }, [])
+
+  useEffect(() => {
+    console.log( "customerInfo11111", customerInfo)
+    setDataToStorage('customer-info', customerInfo)
+  }, [customerInfo])
 
   return (
     <>

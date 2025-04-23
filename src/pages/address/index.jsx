@@ -4,6 +4,7 @@ import { CaretRight, Check, Circle, Plus, Flag } from '@phosphor-icons/react'
 import { useRecoilState } from "recoil"
 import { openAddAddressState, listAddressState, customerInfoState, editAddressState } from "../../recoil/order"
 import { useNavigate } from "react-router-dom"
+import { setDataToStorage } from "../../utils/tools"
 
 const Address = () => {
   const navigate = useNavigate()
@@ -11,7 +12,7 @@ const Address = () => {
   const [listAddress, setListAddress] = useRecoilState(listAddressState)
   const [customerInfo, setCustomerInfo] = useRecoilState(customerInfoState)
   const [editAddress, setEditAddress] = useRecoilState(editAddressState)
-
+  console.log( "listAddress11111", listAddress)
   const handleAccept = () => {
     navigate("/checkout")
   }
@@ -38,8 +39,13 @@ const Address = () => {
 
   useEffect(() => {
     const list_address = JSON.parse(localStorage.getItem('list-address') || '[]')
+    console.log( "list_addressssss", list_address,)
     setListAddress(list_address)
   }, [])
+
+  useEffect(() => {
+    setDataToStorage('customer-info', customerInfo)
+  }, [customerInfo])
 
   return(
     <>

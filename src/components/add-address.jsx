@@ -4,6 +4,7 @@ import { openAddAddressState, listAddressState, customerInfoState, editAddressSt
 import { useRecoilState } from "recoil"
 import { ArrowLeft } from "@phosphor-icons/react"
 import { decode } from "html-entities"
+import { setDataToStorage } from "../utils/tools"
 const { TextArea } = Input
 
 const AddAddress = () => {
@@ -224,7 +225,6 @@ const AddAddress = () => {
   }, [districtId])
 
   useEffect(() => {
-    console.log(editAddress, "editttt")
     if (editAddress) {
       setFullName(editAddress.full_name)
       setProvinceId(editAddress.province_id)
@@ -235,6 +235,10 @@ const AddAddress = () => {
       setDefaultValue(editAddress.default)
     }
   }, [editAddress])
+
+  useEffect(() => {
+    setDataToStorage('customer-info', customerInfo)
+  }, [customerInfo])
 
   return (
     <div>
