@@ -27,7 +27,7 @@ const Checkout = () => {
   const [customer, setCustomer] = useRecoilState(customerState)
   const navigate = useNavigate()
   const country_id = 84
-  const [customerInfo, setCustomerInfo] = useRecoilState(customerInfoState)
+  const [customerInfo, setCustomerInfo] = useState({})
   const [cartItems, setCartItems] = useRecoilState(cartItemsState)
   const [listAddress, setListAddress] = useRecoilState(listAddressState)
   const [discountCoupon, setDiscountCoupon] = useRecoilState(discountCouponState)
@@ -151,9 +151,10 @@ const Checkout = () => {
   }
 
   const createOrder = async (zalo_order_id) => {
+    const customer_info = getDataToStorage('customer-info')
     let data = {
       order_items: setOrderItems(),
-      shipping_address: {...customerInfo, note: note},
+      shipping_address: {...customer_info, note: note},
       zalo_order_id: zalo_order_id,
       location: `https://zalo.me/s/${import.meta.env.VITE_APP_ID}/`,
       customer: customer,
@@ -162,15 +163,14 @@ const Checkout = () => {
           value: coupon
         },
         phone_number: {
-          value: customerInfo ?.phone_number
+          value: customer_info ?.phone_number
         }
       }
     }
-
+    console.log(data, "data orderrrr")
     const res = await postApi("/orders/quick_order", data)
     console.log(res, "res orderrrr")
     if (res.status == 200) {
-      setCustomerInfo(customerInfo)
       afterSubmitSuccess()
     } else {
       updateOrderZalo(zalo_order_id)
@@ -358,12 +358,17 @@ const Checkout = () => {
   }, [districtId])
 
   useEffect(() => {
+    const customer_info = getDataToStorage('customer-info')
+    setCustomerInfo(customer_info)
+  }, [])
+
+  useEffect(() => {
     const list_address = JSON.parse(localStorage.getItem('list-address') || '[]')
     let address = list_address.find(el => el.default)
     if (address) return setCustomerInfo(address)
     if (!address && list_address.length > 0) return setCustomerInfo(list_address[0])
     if (list_address.length == 0) return setCustomerInfo(null)
-    }, [listAddress])
+  }, [listAddress])
 
   useEffect(() => {
     events.on(EventName.OpenApp, (data) => {
@@ -422,16 +427,6 @@ const Checkout = () => {
       }
     });
   }, [])
-
-  useEffect(() => {
-    const customer_info = getDataToStorage('customer-info')
-    if (!customerInfo) setCustomerInfo(customer_info)
-  }, [])
-
-  useEffect(() => {
-    console.log( "customerInfo11111", customerInfo)
-    setDataToStorage('customer-info', customerInfo)
-  }, [customerInfo])
 
   return (
     <>
