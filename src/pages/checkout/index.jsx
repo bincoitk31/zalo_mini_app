@@ -151,7 +151,18 @@ const Checkout = () => {
   }
 
   const createOrder = async (zalo_order_id) => {
-    const customer_info = getDataToStorage('customer-info')
+
+    // check duplicate order
+    const lock_zalo_order_id = getDataToStorage('lock_zalo_order_id')
+    if (lock_zalo_order_id == zalo_order_id) return
+    setDataToStorage('lock_zalo_order_id', zalo_order_id)
+
+    let customer_info = getDataToStorage('customer-info')
+    if (!customer_info) {
+      const list_address = JSON.parse(localStorage.getItem('list-address') || '[]')
+      if (list_address.length == 0) return message.error("Vui lòng thêm địa chỉ nhận hàng")
+      customer_info = list_address.find(el => el.default) || list_address[0]
+    }
     let data = {
       order_items: setOrderItems(),
       shipping_address: {...customer_info, note: note},
@@ -395,9 +406,8 @@ const Checkout = () => {
     });
 
     events.on(EventName.PaymentClose, (data) => {
-      
-      // afterSubmitSuccess()
       const resultCode = data?.resultCode;
+      console.log(data, "data payment close")
       if (data ?.orderId) {
         createOrder(data.orderId)
       } else {
