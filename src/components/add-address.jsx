@@ -320,7 +320,6 @@ const AddAddress = () => {
                 value={detectAddress}
                 rows={3}
                 placeholder="Nhập địa chỉ cụ thể"
-                maxLength={6}
               />
             </div>
           </div>
