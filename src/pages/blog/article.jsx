@@ -29,7 +29,7 @@ const Article = () => {
             </div>
           </div>
         </div>
-        <div className="p-2 bg-[#fff]" dangerouslySetInnerHTML={{__html: resizeDescription(article.compress_content || article.content)}}></div>
+        <div className="p-2 bg-[#fff] default-style" dangerouslySetInnerHTML={{__html: resizeDescription(article.compress_content || article.content)}}></div>
       </div>
     </>
   )
