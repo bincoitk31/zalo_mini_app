@@ -3,7 +3,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil"
 import { activeTabState } from "../../recoil/atoms"
 import { articleState } from "../../recoil/blog"
 import { Eye } from '@phosphor-icons/react'
-import { resizeLink } from "../../utils/tools"
+import { resizeLink, resizeDescription } from "../../utils/tools"
 
 const Article = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
@@ -29,7 +29,7 @@ const Article = () => {
             </div>
           </div>
         </div>
-        <div className="p-2 bg-[#fff]" dangerouslySetInnerHTML={{__html: article.compress_content}}></div>
+        <div className="p-2 bg-[#fff]" dangerouslySetInnerHTML={{__html: resizeDescription(article.compress_content || article.content)}}></div>
       </div>
     </>
   )

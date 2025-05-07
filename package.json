@@ -36,6 +36,7 @@
     "react-slick": "^0.30.3",
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",
+    "zmp-openapi-nodejs": "^2.1.9",
     "zmp-sdk": "^2.45.0",
     "zmp-ui": "latest"
   },

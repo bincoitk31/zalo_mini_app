@@ -2,6 +2,7 @@ const express = require('express');
 const { spawn, exec } = require('child_process');
 const fs = require('fs');
 require('dotenv').config();
+const { PartnerClient, AppCategory } = require("zmp-openapi-nodejs");
 
 const app = express();
 const port = 3000;
@@ -151,6 +152,34 @@ async function runDeployment(command, description, app_id, access_token) {
   });
 }
 
+app.post('/api/create_app', async (req, res) => {
+  console.log("vaoooo")
+  // Setup client
+  const proxy = {
+    host: "10.50.173.232",
+    port: 254,
+  };
+
+  const client = new PartnerClient(
+    "97771a9d-16ac-4de7-a6ec-d5fe7419fe1d",
+    "1133",
+    proxy, // optional
+  );
+
+  console.log(client, "clienttttt")
+
+  client.setProxy(proxy);
+
+  const { appId, appName, error, message } = await client.createMiniApp({
+    appName: "storecake test 3",
+    appDescription: "Mini App Description",
+    appCategory: AppCategory.DEMO,
+    appLogoUrl: "https://logo-mapps.zdn.vn/default?v=2.0",
+    browsable: true,
+    zaloAppId: "2053551167336882761", // optional
+  });
+  console.log(appId, appName, error, message)
+})
 app.listen(port, '0.0.0.0',() => {
   console.log(`Server running at http://localhost:${port}`);
 });

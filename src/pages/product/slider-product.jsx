@@ -39,7 +39,7 @@ const SliderProduct = ({images, product}) => {
       let title = meta_tags.find(el => el.type == "meta" && el.props.property == "page_title")
       if (title) title = title.props.content
       let description = meta_tags.find(el => el.type == "meta" && el.props.property == "meta_description")
-      if (description) description.props.content
+      if (description) description = description.props.content
 
       const data = await openShareSheet({
         type: "zmp_deep_link",
@@ -49,7 +49,9 @@ const SliderProduct = ({images, product}) => {
           thumbnail: product?.variations?.[0].images?.[0],
         },
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err, "err share current page")
+    }
   };
 
   return (
