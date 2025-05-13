@@ -1,4 +1,5 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil"
+import { getApi } from "../utils/request"
 
 export const totalPriceState = atom({
   key: "totalPrice",
@@ -44,3 +45,20 @@ export const discountCouponState = atom({
   key: 'discountCoupon',
   default: 0
 })
+
+export const orderStore = (type, payload = {}) => {
+  const getShippingFee = async () => {
+    return await getApi("/orders/shipping_fee", {params: payload})
+  }
+
+  const getProductByIds = async () => {
+    return await getApi("/products/get_product_by_ids", {params: payload})
+  }
+
+  const obj = {
+    getShippingFee,
+    getProductByIds
+  }
+
+  return obj[type](payload)
+}

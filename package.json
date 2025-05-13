@@ -17,7 +17,9 @@
   "scripts": {
     "login": "zmp login",
     "start": "zmp start",
-    "deploy": "zmp deploy"
+    "deploy": "zmp deploy",
+    "build": "zmp build",
+    "build:zip": "zmp build && rm -f build.zip && cd www && zip -r ../build.zip ."
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",

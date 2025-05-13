@@ -129,7 +129,7 @@ const AddToCart = () => {
 
   const addToCart = (flag = 'add-cart') => {
     let variation = findVariation()
-
+    console.log(product.categories, "product categories")
     if (!variation.id) return message.error({content: "Vui lòng chọn thuộc tính sản phẩm", style: {marginTop: '20px'}})
     variation = {...variation,
       quantity: parseInt(quantity),

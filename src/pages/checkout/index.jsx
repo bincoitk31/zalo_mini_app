@@ -9,7 +9,7 @@ import { validatePhoneNumber, isValidEmail } from "../../utils/tools"
 import { activeTabState } from "../../recoil/atoms"
 import { memberZaloState, phoneMemberZaloState, customerState } from "../../recoil/member"
 import { AirplaneTilt, Package, User, MapPinLine, Plus } from '@phosphor-icons/react'
-import { listAddressState, openAddAddressState } from "../../recoil/order"
+import { listAddressState, openAddAddressState, orderStore } from "../../recoil/order"
 import { Payment, events, EventName } from "zmp-sdk/apis"
 import { couponStore } from "../../recoil/coupon"
 
@@ -80,7 +80,7 @@ const Checkout = () => {
       const variation_info = {
         id: item.id,
         custom_id: item.custom_id,
-        product_custom_id: item.product?.custom_id,
+        product_custom_id: item.product_custom_id,
         display_id: item.display_id,
         variation_pos_id: item.variation_pos_id,
         original_price: item.original_price,
@@ -380,6 +380,42 @@ const Checkout = () => {
     if (!address && list_address.length > 0) return setCustomerInfo(list_address[0])
     if (list_address.length == 0) return setCustomerInfo(null)
   }, [listAddress])
+
+  //useEffect(() => {
+    // console.log(customerInfo, "customerInfo")
+    // console.log("tinh phi van chuyennnn")
+    // console.log(cartItems, "cartItems")
+    // console.log(setOrderItems(), "setOrderItems")
+    // const params = {
+    //   country: "84",
+    //   province: customerInfo ?.province_id,
+    //   districts: customerInfo ?.district_id,
+    //   communes: customerInfo ?.commune_id,
+    //   total_price: totalPrice,
+    //   quantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+    //   weight: cartItems.reduce((acc, item) => acc + item.weight * item.quantity, 0),
+    //   site_id: import.meta.env.VITE_SITE_ID,
+    //   payment_method: 'cod',
+    //   shipping_fee_id: null,
+    //   category_ids: cartItems.map(item => item.category_id)
+    // }
+
+    // orderStore('getShippingFee', params)
+    // .then(res => {
+    //   console.log(res, "res shipping fee")
+    // })
+
+  //}, [customerInfo])
+
+  useEffect(() => {
+    // const params = {
+    //   ids: cartItems.map(item => item.product_id)
+    // }
+    // orderStore('getProductByIds', params)
+    // .then(res => {
+    //   console.log(res, "res product by ids")
+    // })
+  }, [])
 
   useEffect(() => {
     events.on(EventName.OpenApp, (data) => {
