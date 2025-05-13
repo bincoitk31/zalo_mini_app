@@ -30,7 +30,7 @@ const HomePage = () => {
   const [blogHome, setBlogHome] = useRecoilState(blogHomeState)
 
   const renderProductsCategories = (category) => {
-    console.log(category, "categoryyy")
+
     return (
       <div className="mt-4" key={category.id}>
         <div className="flex justify-between font-bold pb-2">
@@ -52,20 +52,20 @@ const HomePage = () => {
   }
 
   const fetchCategories = async () => {
-    const updatedCategories = []
+    let updatedCategories = []
 
-    for (const category of CATEGORIES_HOME) {
+    for (const category_id of CATEGORIES_HOME) {
       try {
-        const res = await categoryStore("getCategoryById", { id: category.id });
+        const res = await categoryStore("getCategoryById", { id: category_id });
 
         if (res.status === 200) {
-          if (res.data.products && res.data.products.data.length > 0) {
+          if (res.data.result && res.data.result.products.data.length > 0) {
             updatedCategories.push({
-              ...category,
-              products: res.data.products,
+              id: category_id,
+              name: res.data.result.name,
+              products: res.data.result.products
             });
           }
-
         }
       } catch (error) {
         console.error("Error fetching category:", error);

@@ -27,7 +27,7 @@ export const categoryStore = (type, payload = {}) => {
   }
 
   const getCategoryById = async () => {
-    return await getApi(`/categories/products`, {params: payload})
+    return await getApi(`/categories/products_new`, {params: payload})
   }
 
   const searchProducts = async () => {
