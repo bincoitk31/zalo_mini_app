@@ -8,6 +8,7 @@ import { memberZaloState } from "../../recoil/member";
 import { Button, Badge } from 'antd'
 import { HouseLine, ListMagnifyingGlass, ShoppingBag, User, ChatCircleDots } from '@phosphor-icons/react'
 import { openChat, getUserID } from "zmp-sdk/apis";
+import { getDataToStorage } from "../../utils/tools";
 import AddToCart from "../add-to-cart";
 import Cart from "../cart";
 import AddAddress from "../add-address";
@@ -18,8 +19,7 @@ const FooterCustom = (props) => {
   const [openCart, setOpenCart] = useRecoilState(openCartState)
   const [openAddAddress, setOpenAddAddress] = useRecoilState(openAddAddressState)
   const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
-  const cartItems = useRecoilValue(cartItemsState)
-
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState)
   const [userId, setUserId] = useState()
 
   const location = useLocation()
@@ -62,6 +62,11 @@ const FooterCustom = (props) => {
   useEffect(() => {
       console.log(location, "locationnn")
     }, [location])
+  
+  useEffect(() => {
+    let cartItemsLocal = getDataToStorage("cart-items")
+    setCartItems(cartItemsLocal)
+  }, [])
 
   return (
     <>

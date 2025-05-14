@@ -4,7 +4,7 @@ import { useRecoilValue, useRecoilState } from "recoil"
 import { formatNumber } from ".././utils/formatNumber"
 import { CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { resizeLink } from "../utils/tools"
+import { resizeLink, setDataToStorage, getDataToStorage } from "../utils/tools"
 import Quantity from "./quantity";
 
 const CartItems = () => {
@@ -16,7 +16,7 @@ const CartItems = () => {
   const handleRemove = (item) => {
     let newCartItems = cartItems.filter(el => el.id != item.id)
     setCartItems(newCartItems)
-    localStorage.setItem("cart-items", JSON.stringify(newCartItems))
+    setDataToStorage("cart-items", newCartItems)
   }
 
   const renderFields = (vari) => {
@@ -38,26 +38,15 @@ const CartItems = () => {
     setTotalPrice(new_total)
   }
 
-  const calcAmountPrice = () => {
-    let new_total = cartItems.reduce((acc, el) => {
-      console.log(el)
-      return acc += el.retail_price * el.quantity
-    }, 0)
-
-    setAmountPrice(new_total)
-  }
-
 
   useEffect(() => {
-    let cartItemsLocal = localStorage.getItem("cart-items")
-    console.log(cartItemsLocal, "locll")
-    setCartItems(JSON.parse(cartItemsLocal))
+    let cartItemsLocal = getDataToStorage("cart-items")
+    setCartItems(cartItemsLocal)
   }, [])
 
   useEffect(() => {
       calcTotalPrice()
-      calcAmountPrice()
-      localStorage.setItem("cart-items", JSON.stringify(cartItems))
+      setDataToStorage("cart-items", cartItems)
     }, [cartItems])
 
   return (

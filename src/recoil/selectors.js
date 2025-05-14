@@ -1,6 +1,7 @@
 import { selector } from "recoil";
 import { getUserInfo } from "zmp-sdk/apis";
 import { cartItemsState } from "./order";
+import { setDataToStorage } from "../utils/tools";
 
 export const userState = selector({
   key: "user",
@@ -28,6 +29,6 @@ export const addCartState = selector({
     console.log(item, "itemmm")
     console.log(newCartItems, "new_itemss")
     set(cartItemsState, newCartItems)
-    localStorage.setItem("cart-items", JSON.stringify(newCartItems));
+    setDataToStorage("cart-items", newCartItems)
   }
 })

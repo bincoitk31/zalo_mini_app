@@ -3,6 +3,7 @@ import { MinusOutlined, PlusOutlined, ExclamationCircleOutlined } from "@ant-des
 import { cartItemsState } from "../recoil/order"
 import { useRecoilState } from "recoil"
 import { Modal, message } from "antd";
+import { setDataToStorage } from "../utils/tools"
 
 const { confirm } = Modal;
 const Quantity = ({item}) => {
@@ -47,7 +48,7 @@ const Quantity = ({item}) => {
   const handleRemove = () => {
     let newCartItems = cartItems.filter(el => el.id != item.id)
     setCartItems(newCartItems)
-    localStorage.setItem("cart-items", JSON.stringify(newCartItems))
+    setDataToStorage("cart-items", newCartItems)
     message.success('Xóa sản phẩm thành công')
   }
 

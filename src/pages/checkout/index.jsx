@@ -32,9 +32,7 @@ import { getDataToStorage, setDataToStorage } from "../../utils/tools"
 const Checkout = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
   const totalPrice = useRecoilValue(totalPriceState)
-  const amountPrice = useRecoilValue(amountPriceState)
 
-  const [amount, setAmount] = useState(amountPrice)
   const [shippingFee, setShippingFee] = useRecoilState(shippingFeeState)
   const setOpenAddAddress = useSetRecoilState(openAddAddressState)
   const [customer, setCustomer] = useRecoilState(customerState)
@@ -43,6 +41,7 @@ const Checkout = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState)
   const [listAddress, setListAddress] = useRecoilState(listAddressState)
   const [discountCoupon, setDiscountCoupon] = useRecoilState(discountCouponState)
+  const [amountPrice, setAmountPrice] = useRecoilState(amountPriceState)
   const [customerInfo, setCustomerInfo] = useState({})
   const [loadingOrder, setLoadingOrder] = useState(false)
   const [provinces, setProvinces] = useState({})
@@ -192,9 +191,9 @@ const Checkout = () => {
         }
       }
     }
-    console.log(data, "data orderrrr")
+
     const res = await postApi("/orders/quick_order", data)
-    console.log(res, "res orderrrr")
+
     if (res.status == 200) {
       afterSubmitSuccess()
     } else {
@@ -396,10 +395,6 @@ const Checkout = () => {
   }, [listAddress])
 
   useEffect(() => {
-    console.log(customerInfo, "customerInfo")
-    console.log("tinh phi van chuyennnn")
-    console.log(cartItems, "cartItems")
-    console.log(setOrderItems(), "setOrderItems")
     const params = {
       country: 84,
       province: customerInfo ?.province_id,
@@ -414,11 +409,8 @@ const Checkout = () => {
       category_ids: cartItems.map(item => item.categories ? item.categories.map(c => c.id) : []).flat()
     }
 
-    console.log("paramssssss", params)
-
     orderStore('getShippingFee', params)
     .then(res => {
-      console.log(res, "res shipping fee")
       if (res.status == 200) {
         setShippingFee(res.data.price_ship ?.value || 0)
       }
@@ -428,14 +420,12 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    console.log("cartItemssss", cartItems)
     const params = {
       ids: cartItems.map(item => item.product_id)
     }
     orderStore('getProductByIds', params)
     .then(res => {
       if (res.status == 200) {
-        console.log(res, "res product by ids")
         let variations_all = []
         res.data.data.map(el =>{
           let variations = el.variations.map(v => {
@@ -448,7 +438,6 @@ const Checkout = () => {
           })
           variations_all.push(...variations)
         })
-        console.log(variations_all, "variations_all")
         setCartItems(prev => prev.map(item => {
           const variation = variations_all.find(v => v.id == item.variation_id)
           return {...item, ...variation}
@@ -458,8 +447,9 @@ const Checkout = () => {
   }, [])
 
   useEffect(() => {
-    setAmount(amountPrice)
-  }, [amountPrice])
+    const amount = totalPrice - discountCoupon + shippingFee
+    setAmountPrice(amount)
+  }, [discountCoupon, shippingFee, totalPrice])
 
   useEffect(() => {
     events.on(EventName.OpenApp, (data) => {
@@ -619,7 +609,7 @@ const Checkout = () => {
         <div className="">
           <div className="flex justify-between pb-3">
             <div className="font-bold">Tổng thanh toán:</div>
-            <div className="font-bold">{formatNumber(amount)}</div>
+            <div className="font-bold">{formatNumber(amountPrice)}</div>
           </div>
           <div className="flex w-full">
             <Button disabled={cartItems.length == 0 ? true : false} color="default" variant="solid" className="w-full h-[36px] my-2 font-medium rounded-[4px]" onClick={() => handleOrder()}> Đặt hàng</Button>

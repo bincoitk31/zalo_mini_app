@@ -7,6 +7,7 @@ import { totalPriceState, cartItemsState } from "../recoil/order"
 import { formatNumber } from "../utils/formatNumber"
 import { useNavigate } from "react-router-dom"
 import CartItems from "./cart-items"
+import { setDataToStorage } from "../utils/tools"
 
 const Cart = () => {
   const navigate = useNavigate()
@@ -27,7 +28,7 @@ const Cart = () => {
 
   const removeCart = () => {
     setCartItems([])
-    localStorage.setItem("cart-items", JSON.stringify([]))
+    setDataToStorage("cart-items", [])
   }
 
   return (
