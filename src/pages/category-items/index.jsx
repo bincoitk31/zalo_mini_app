@@ -15,7 +15,7 @@ const CategoryItems = () => {
   useEffect(() => {
     categoryStore('getCategoryById', {id})
       .then(res => {
-        if (res.status == 200) setProducts(res.data.products)
+        if (res.status == 200) setProducts(res.data.result.products)
         console.log(res, "productssssss")
       })
   }, [])

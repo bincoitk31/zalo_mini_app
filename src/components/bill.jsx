@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { totalPriceState, amountPriceState, cartItemsState, discountCouponState } from "../recoil/order"
+import { totalPriceState, amountPriceState, discountCouponState, shippingFeeState } from "../recoil/order"
 import {  useRecoilValue, useRecoilState } from "recoil"
 import { formatNumber } from "../utils/formatNumber"
 import { Button } from "antd"
@@ -10,11 +10,12 @@ const Bill = () => {
   const totalPrice = useRecoilValue(totalPriceState)
   const [amountPrice, setAmountPrice] = useRecoilState(amountPriceState)
   const discountCoupon = useRecoilValue(discountCouponState)
-
+  const shippingFee = useRecoilValue(shippingFeeState)
+  console.log(shippingFee, "shippingFee")
   useEffect(() => {
-    const amount = totalPrice - discountCoupon
+    const amount = totalPrice - discountCoupon - shippingFee
     setAmountPrice(amount)
-  }, [discountCoupon])
+  }, [discountCoupon, shippingFee])
 
   return (
     <div className="p-3">
@@ -27,7 +28,7 @@ const Bill = () => {
           </div>
           <div className="flex justify-between pb-1 text-zinc-500">
             <div>Phí vận chuyển:</div>
-            <div>{formatNumber(0)}</div>
+            <div>{formatNumber(shippingFee)}</div>
           </div>
           <div className="flex justify-between pb-1 text-orange-600">
             <div>Giảm giá:</div>

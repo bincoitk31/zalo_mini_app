@@ -27,11 +27,11 @@ const CategoryItems = (props) => {
     categoryStore('getCategoryById', {id: categoryChoose, page: products.page + 1})
       .then(res => {
         if (res.status == 200) {
-          if (res.data.products.data.length > 0) {
+          if (res.data.result.products.data.length > 0) {
             setProducts(prev => ({
-              data: [...prev.data, ...res.data.products.data],
+              data: [...prev.data, ...res.data.result.products.data],
               page: prev.page + 1,
-              hasMore: res.data.products.data.length > 0
+              hasMore: res.data.result.products.data.length > 0
             }))
           } else {
             setProducts(prev => ({...prev, hasMore: false}))

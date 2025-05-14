@@ -29,7 +29,10 @@ const Category = () => {
     setLoading(true)
     categoryStore('getCategoryById', {id})
     .then(res => {
-      if (res.status == 200) setProducts(res.data.products)
+      if (res.status == 200) {
+        console.log(res, "res.data.products")
+        setProducts(res.data.result.products)
+      }
     })
     .finally(() => setLoading(false))
   }
@@ -46,7 +49,7 @@ const Category = () => {
       setLoading(true)
       categoryStore('getCategoryById', {id: category_id})
       .then(res => {
-        if (res.status == 200) setProducts(res.data.products)
+        if (res.status == 200) setProducts(res.data.result.products)
       })
       .finally(() => setLoading(false))
     }

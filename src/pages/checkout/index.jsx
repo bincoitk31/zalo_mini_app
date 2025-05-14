@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil"
-import { customerInfoState, cartItemsState, totalPriceState, amountPriceState, discountCouponState } from "../../recoil/order"
+import {
+  customerInfoState,
+  cartItemsState,
+  totalPriceState,
+  amountPriceState,
+  discountCouponState,
+  listAddressState,
+  openAddAddressState,
+  orderStore,
+  shippingFeeState,
+} from "../../recoil/order"
 import { Button, Input, message, Select, Space, ConfigProvider } from "antd"
 import { postApi, postApiAxios } from "../../utils/request"
 import { formatNumber } from "../../utils/formatNumber"
@@ -9,7 +19,7 @@ import { validatePhoneNumber, isValidEmail } from "../../utils/tools"
 import { activeTabState } from "../../recoil/atoms"
 import { memberZaloState, phoneMemberZaloState, customerState } from "../../recoil/member"
 import { AirplaneTilt, Package, User, MapPinLine, Plus } from '@phosphor-icons/react'
-import { listAddressState, openAddAddressState, orderStore } from "../../recoil/order"
+import { } from "../../recoil/order"
 import { Payment, events, EventName } from "zmp-sdk/apis"
 import { couponStore } from "../../recoil/coupon"
 
@@ -23,14 +33,15 @@ const Checkout = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
   const totalPrice = useRecoilValue(totalPriceState)
   const amountPrice = useRecoilValue(amountPriceState)
+  const [shippingFee, setShippingFee] = useRecoilState(shippingFeeState)
   const setOpenAddAddress = useSetRecoilState(openAddAddressState)
   const [customer, setCustomer] = useRecoilState(customerState)
   const navigate = useNavigate()
   const country_id = 84
-  const [customerInfo, setCustomerInfo] = useState({})
   const [cartItems, setCartItems] = useRecoilState(cartItemsState)
   const [listAddress, setListAddress] = useRecoilState(listAddressState)
   const [discountCoupon, setDiscountCoupon] = useRecoilState(discountCouponState)
+  const [customerInfo, setCustomerInfo] = useState({})
   const [loadingOrder, setLoadingOrder] = useState(false)
   const [provinces, setProvinces] = useState({})
   const [districts, setDistricts] = useState({})
@@ -169,6 +180,7 @@ const Checkout = () => {
       zalo_order_id: zalo_order_id,
       location: `https://zalo.me/s/${import.meta.env.VITE_APP_ID}/`,
       customer: customer,
+      shipping_fee: shippingFee,
       form_data: {
         coupon: {
           value: coupon
@@ -381,40 +393,66 @@ const Checkout = () => {
     if (list_address.length == 0) return setCustomerInfo(null)
   }, [listAddress])
 
-  //useEffect(() => {
-    // console.log(customerInfo, "customerInfo")
-    // console.log("tinh phi van chuyennnn")
-    // console.log(cartItems, "cartItems")
-    // console.log(setOrderItems(), "setOrderItems")
-    // const params = {
-    //   country: "84",
-    //   province: customerInfo ?.province_id,
-    //   districts: customerInfo ?.district_id,
-    //   communes: customerInfo ?.commune_id,
-    //   total_price: totalPrice,
-    //   quantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
-    //   weight: cartItems.reduce((acc, item) => acc + item.weight * item.quantity, 0),
-    //   site_id: import.meta.env.VITE_SITE_ID,
-    //   payment_method: 'cod',
-    //   shipping_fee_id: null,
-    //   category_ids: cartItems.map(item => item.category_id)
-    // }
+  useEffect(() => {
+    console.log(customerInfo, "customerInfo")
+    console.log("tinh phi van chuyennnn")
+    console.log(cartItems, "cartItems")
+    console.log(setOrderItems(), "setOrderItems")
+    const params = {
+      country: 84,
+      province: customerInfo ?.province_id,
+      districts: customerInfo ?.district_id,
+      communes: customerInfo ?.commune_id,
+      total_price: parseInt(totalPrice),
+      quantity: cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0),
+      weight: cartItems.reduce((acc, item) => acc + parseInt(item.weight) * parseInt(item.quantity), 0),
+      site_id: import.meta.env.VITE_SITE_ID,
+      payment_method: 'cod',
+      shipping_fee_id: null,
+      category_ids: cartItems.map(item => item.categories ? item.categories.map(c => c.id) : []).flat()
+    }
 
-    // orderStore('getShippingFee', params)
-    // .then(res => {
-    //   console.log(res, "res shipping fee")
-    // })
+    console.log("paramssssss", params)
 
-  //}, [customerInfo])
+    orderStore('getShippingFee', params)
+    .then(res => {
+      console.log(res, "res shipping fee")
+      if (res.status == 200) {
+        setShippingFee(res.data.price_ship ?.value || 0)
+      }
+    })
+
+  }, [customerInfo, cartItems])
+
 
   useEffect(() => {
-    // const params = {
-    //   ids: cartItems.map(item => item.product_id)
-    // }
-    // orderStore('getProductByIds', params)
-    // .then(res => {
-    //   console.log(res, "res product by ids")
-    // })
+    console.log("cartItemssss", cartItems)
+    const params = {
+      ids: cartItems.map(item => item.product_id)
+    }
+    orderStore('getProductByIds', params)
+    .then(res => {
+      if (res.status == 200) {
+        console.log(res, "res product by ids")
+        let variations_all = []
+        res.data.data.map(el =>{
+          let variations = el.variations.map(v => {
+            return {
+              ...v,
+              categories: el.categories,
+              name: el.name,
+              product_custom_id: el.custom_id
+            }
+          })
+          variations_all.push(...variations)
+        })
+        console.log(variations_all, "variations_all")
+        setCartItems(prev => prev.map(item => {
+          const variation = variations_all.find(v => v.id == item.variation_id)
+          return {...item, ...variation}
+        }))
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -564,7 +602,6 @@ const Checkout = () => {
         </div>
       </div>
       <PaymentMethod />
-
 
       <div>
         <Bill />

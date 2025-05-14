@@ -46,9 +46,18 @@ export const discountCouponState = atom({
   default: 0
 })
 
+export const shippingFeeState = atom({
+  key: 'shippingFee',
+  default: 0
+})
+
 export const orderStore = (type, payload = {}) => {
   const getShippingFee = async () => {
     return await getApi("/orders/shipping_fee", {params: payload})
+  }
+
+  const getPriceShipOrders = async () => {
+    return await getApi("/orders/price_ship_orders", {params: payload})
   }
 
   const getProductByIds = async () => {
@@ -57,7 +66,8 @@ export const orderStore = (type, payload = {}) => {
 
   const obj = {
     getShippingFee,
-    getProductByIds
+    getProductByIds,
+    getPriceShipOrders
   }
 
   return obj[type](payload)
