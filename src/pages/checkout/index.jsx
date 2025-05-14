@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil"
 import {
   customerInfoState,
@@ -9,7 +9,7 @@ import {
   listAddressState,
   openAddAddressState,
   orderStore,
-  shippingFeeState,
+  shippingFeeState
 } from "../../recoil/order"
 import { Button, Input, message, Select, Space, ConfigProvider } from "antd"
 import { postApi, postApiAxios } from "../../utils/request"
@@ -32,7 +32,7 @@ import { getDataToStorage, setDataToStorage } from "../../utils/tools"
 const Checkout = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
   const totalPrice = useRecoilValue(totalPriceState)
-
+  const couponRef = useRef(null)
   const [shippingFee, setShippingFee] = useRecoilState(shippingFeeState)
   const setOpenAddAddress = useSetRecoilState(openAddAddressState)
   const [customer, setCustomer] = useRecoilState(customerState)
@@ -51,7 +51,6 @@ const Checkout = () => {
   const [districtId, setDistrictId] = useState()
   const [note, setNote] = useState()
   const [couponName, setCouponName] = useState()
-  const [coupon, setCoupon] = useState()
 
   const renderProvince = () => {
     if(!window.WebAddress[country_id]) return
@@ -175,6 +174,7 @@ const Checkout = () => {
       if (list_address.length == 0) return message.error("Vui lòng thêm địa chỉ nhận hàng")
       customer_info = list_address.find(el => el.default) || list_address[0]
     }
+
     let data = {
       order_items: setOrderItems(),
       shipping_address: {...customer_info, note: note},
@@ -184,10 +184,10 @@ const Checkout = () => {
       shipping_fee: shippingFee,
       form_data: {
         coupon: {
-          value: coupon
+          value: couponRef.current
         },
         phone_number: {
-          value: customer_info ?.phone_number
+          value: customer_info?.phone_number
         }
       }
     }
@@ -238,8 +238,8 @@ const Checkout = () => {
   const createOrderZalo = () => {
     setLoadingOrder(true)
     const params = {
-      amount: totalPrice,
-      desc: `Thanh toán ${totalPrice}`,
+      amount: amountPrice,
+      desc: `Thanh toán ${amountPrice}`,
       item: setItemsZalo(),
       // extradata:{
       //   myTransactionId: id
@@ -269,9 +269,9 @@ const Checkout = () => {
       let mac = CryptoJS.HmacSHA256(dataMac, privateKey).toString()
 
       Payment.createOrder({
-        desc: `Thanh toán ${totalPrice}`,
+        desc: `Thanh toán ${amountPrice}`,
         item: setItemsZalo(),
-        amount: totalPrice,
+        amount: amountPrice,
         // extradata: JSON.stringify({
         //   myTransactionId: id // transaction id riêng của hệ thống của bạn
         // }),
@@ -312,7 +312,7 @@ const Checkout = () => {
     let params = {
       name: couponName,
       total_price: totalPrice,
-      phone_number: customerInfo ?.phone_number
+      phone_number: customerInfo?.phone_number
     }
 
     couponStore('findCouponByName', params)
@@ -321,7 +321,7 @@ const Checkout = () => {
         if (res.data.data.message) {
           let reason = res.data.data.reason
           setDiscountCoupon(0)
-          setCoupon()
+          couponRef.current = null
           switch(res.data.data.message) {
             case "coupon_000":
               message.error("Mã khuyến mãi không tồn tại")
@@ -368,7 +368,7 @@ const Checkout = () => {
       setShippingFee(0)
     }
     setDiscountCoupon(value)
-    setCoupon(coupon)
+    couponRef.current = coupon // Store the latest coupon value
   }
 
   useEffect(() => {
@@ -479,8 +479,8 @@ const Checkout = () => {
 
     events.on(EventName.PaymentClose, (data) => {
       const resultCode = data?.resultCode;
-      console.log(data, "data payment close")
-      if (data ?.orderId) {
+
+      if (data?.orderId) {
         createOrder(data.orderId)
       } else {
         message.error("Lỗi đặt hàng")
@@ -508,7 +508,7 @@ const Checkout = () => {
         const { orderId, resultCode, msg, transTime, createdAt } = data;
       }
     });
-  }, [])
+  }, []) // Empty dependency array since we're using ref
 
   return (
     <>
