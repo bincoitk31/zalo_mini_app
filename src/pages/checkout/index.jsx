@@ -33,6 +33,8 @@ const Checkout = () => {
   const setActiveTab = useSetRecoilState(activeTabState)
   const totalPrice = useRecoilValue(totalPriceState)
   const amountPrice = useRecoilValue(amountPriceState)
+
+  const [amount, setAmount] = useState(amountPrice)
   const [shippingFee, setShippingFee] = useRecoilState(shippingFeeState)
   const setOpenAddAddress = useSetRecoilState(openAddAddressState)
   const [customer, setCustomer] = useRecoilState(customerState)
@@ -456,6 +458,10 @@ const Checkout = () => {
   }, [])
 
   useEffect(() => {
+    setAmount(amountPrice)
+  }, [amountPrice])
+
+  useEffect(() => {
     events.on(EventName.OpenApp, (data) => {
       const path = data?.path;
       // kiểm tra path trả về từ giao dịch thanh toán
@@ -613,7 +619,7 @@ const Checkout = () => {
         <div className="">
           <div className="flex justify-between pb-3">
             <div className="font-bold">Tổng thanh toán:</div>
-            <div className="font-bold">{formatNumber(amountPrice)}</div>
+            <div className="font-bold">{formatNumber(amount)}</div>
           </div>
           <div className="flex w-full">
             <Button disabled={cartItems.length == 0 ? true : false} color="default" variant="solid" className="w-full h-[36px] my-2 font-medium rounded-[4px]" onClick={() => handleOrder()}> Đặt hàng</Button>

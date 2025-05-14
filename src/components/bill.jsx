@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { totalPriceState, amountPriceState, discountCouponState, shippingFeeState } from "../recoil/order"
 import {  useRecoilValue, useRecoilState } from "recoil"
 import { formatNumber } from "../utils/formatNumber"
@@ -11,11 +11,14 @@ const Bill = () => {
   const [amountPrice, setAmountPrice] = useRecoilState(amountPriceState)
   const discountCoupon = useRecoilValue(discountCouponState)
   const shippingFee = useRecoilValue(shippingFeeState)
-  console.log(shippingFee, "shippingFee")
+  const [localAmount, setLocalAmount] = useState(amountPrice)
+
   useEffect(() => {
     const amount = totalPrice - discountCoupon - shippingFee
+    console.log(amount, "amountttttt")
     setAmountPrice(amount)
-  }, [discountCoupon, shippingFee])
+    setLocalAmount(amount)
+  }, [discountCoupon, shippingFee, totalPrice])
 
   return (
     <div className="p-3">
@@ -36,7 +39,7 @@ const Bill = () => {
           </div>
           <div className="flex justify-between pb-1">
             <div className="font-bold">Số tiền phải thanh toán:</div>
-            <div>{formatNumber(amountPrice)}</div>
+            <div>{formatNumber(localAmount)}</div>
           </div>
         </div>
         <div className="border-b border-dashed border-[#a0a2a4ff] my-2"></div>
