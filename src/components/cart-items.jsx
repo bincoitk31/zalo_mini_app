@@ -31,7 +31,6 @@ const CartItems = () => {
 
   const calcTotalPrice = () => {
     let new_total = cartItems.reduce((acc, el) => {
-      console.log(el)
       return acc += el.retail_price * el.quantity
     }, 0)
 

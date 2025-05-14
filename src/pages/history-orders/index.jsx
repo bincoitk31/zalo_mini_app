@@ -47,11 +47,8 @@ const HistoryOrder = () => {
     }
 
     const res = await getApi("orders/tracking_order", {params: data})
-    
+
     if (res.status == 200) {
-      console.log(res, "tracking orderrr")
-      console.log(status, "status")
-      console.log(activeKey, "keyyy")
       if (status == activeKey) setOrders(res.data.result.orders)
     }
   }

@@ -17,7 +17,6 @@ const PaymentMethod = () => {
       success: (data) => {
         // Lựa chọn phương thức thành công
         const { method, isCustom, logo, displayName, subMethod } = data;
-        console.log(data, "dataa")
         setPayment(data)
       },
       fail: (err) => {

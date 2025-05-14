@@ -20,7 +20,6 @@ const Cart = () => {
   }
 
   const submitOrder = () => {
-    console.log('submitOrderr')
     onClose()
     navigate('/checkout')
 

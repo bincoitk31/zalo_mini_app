@@ -34,7 +34,6 @@ const HeaderCustom = () => {
   }
 
   const handleSearch = (e) => {
-    console.log(e.target.value, "valuuuuuu")
     setTerm(e.target.value)
     navigate('/search')
   }
@@ -44,7 +43,6 @@ const HeaderCustom = () => {
   }
 
   useEffect(() => {
-    console.log(location.pathname, "oo")
     const tabMapping = {
       "/": "home",
       "/categories": "categories",

@@ -36,7 +36,6 @@ const FollowOA = () => {
       if (customer) {
         updateCustomer(false)
       }
-      console.log(res, "unfollow oa_id")
     } catch (error) {
       // xử lý khi gọi api thất bại
       console.log(error);
@@ -48,7 +47,6 @@ const FollowOA = () => {
       const res = await followOA({
         id: ZALO_OA_ID
       });
-      console.log(res, "res follow OA")
       setMemberZalo({...memberZalo, followedOA: true})
       if (customer) {
         updateCustomer(true)

@@ -8,7 +8,6 @@ import { resizeLink } from "../utils/tools"
 const OrderItem = ({order}) => {
   const navigate = useNavigate()
   const setProductView = useSetRecoilState(productState)
-  console.log(order, "Itemmmmm")
 
   const totalQuantity = (orders) => {
     return orders.reduce((acc, el) => acc += el.quantity, 0)

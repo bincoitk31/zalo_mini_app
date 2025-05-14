@@ -3,7 +3,6 @@ import { useState } from "react"
 
 const TabsProduct = ({product}) => {
   const [activeKey, setActiveKey] = useState(0)
-  console.log(product.short_description, "dess")
 
   const items = (product.short_description || []).map((el, idx) => {
     return {
@@ -14,7 +13,6 @@ const TabsProduct = ({product}) => {
   })
 
   const onChange = (key) => {
-    console.log(key)
     setActiveKey(key)
   };
 

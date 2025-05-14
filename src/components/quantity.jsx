@@ -16,7 +16,6 @@ const Quantity = ({item}) => {
 
   const decrement = () => {
     if (count == 1) {
-      console.log('vaooo')
       confirm({
         icon: <ExclamationCircleOutlined />,
         content: 'Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?',
@@ -41,7 +40,6 @@ const Quantity = ({item}) => {
   const calcQuantity = () => {
     let idx = cartItems.findIndex(el => el.id == item.id)
     let newCartItems = cartItems.map((el, index) => index === idx ? {...el, quantity: count} : el)
-    console.log(newCartItems, "newCart")
     setCartItems(newCartItems)
   }
 
@@ -57,7 +55,6 @@ const Quantity = ({item}) => {
   }, [])
 
   useEffect(() => {
-    console.log(count, "countt")
     calcQuantity()
   }, [count])
 

@@ -66,7 +66,6 @@ const AddToCart = () => {
 
     // // Sắp xếp giá trị để tránh sự khác biệt thứ tự
     // result.forEach((item) => item.values.sort());
-    console.log(result, "resulttttt")
 
     const checkActive = (name, value) => {
       if (attributeSelected.find(el => el.name == name && el.value == value)) return 'bg-[#000000] text-[#fff]'
@@ -113,23 +112,16 @@ const AddToCart = () => {
   }
 
   const handleChangeQuantity = (value) => {
-    console.log(value, "valllll")
     setQuantity(value);
-    // if (/^\d*$/.test(value)) {
-    //   setQuantity(value);
-    // }
   }
 
 
   const buyNow = () => {
     addToCart('buy-now')
-    // navigate('/checkout')
-
   }
 
   const addToCart = (flag = 'add-cart') => {
     let variation = findVariation()
-    console.log(product.categories, "product categories")
     if (!variation.id) return message.error({content: "Vui lòng chọn thuộc tính sản phẩm", style: {marginTop: '20px'}})
     variation = {...variation,
       quantity: parseInt(quantity),
@@ -150,7 +142,6 @@ const AddToCart = () => {
   }
 
   const acceptAddCart = () => {
-    console.log(typeAddCart, "type add cartt")
     typeAddCart == 'buy-now' ? buyNow() : addToCart()
   }
 

@@ -14,7 +14,6 @@ const Membership = () => {
     if (customer ?.id) {
       memberStore('getMemberShip', {id: customer.id})
       .then(res => {
-        console.log(res, "memberShip")
         if (res.status == 200) {
           setCustomer(res.data.member)
         }

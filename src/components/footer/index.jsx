@@ -27,7 +27,6 @@ const FooterCustom = (props) => {
   const navigate = useNavigate()
 
   const goTo = (key) => {
-    console.log(key, "keyyy")
     setActiveTab(key)
     switch (key) {
       case "home":
@@ -58,10 +57,6 @@ const FooterCustom = (props) => {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-      console.log(location, "locationnn")
-    }, [location])
   
   useEffect(() => {
     let cartItemsLocal = getDataToStorage("cart-items")

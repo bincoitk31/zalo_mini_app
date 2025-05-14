@@ -30,7 +30,6 @@ const Category = () => {
     categoryStore('getCategoryById', {id})
     .then(res => {
       if (res.status == 200) {
-        console.log(res, "res.data.products")
         setProducts(res.data.result.products)
       }
     })
@@ -53,7 +52,6 @@ const Category = () => {
       })
       .finally(() => setLoading(false))
     }
-   console.log("vvvv")
   }, [])
 
   return (

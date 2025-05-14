@@ -3,7 +3,7 @@ import ProductItem from "./product-item";
 
 const ProductList = (props) => {
   const data = props.products.data || []
-  console.log(data, "dataaaaaaaaaaaa")
+
   return (
     <div
       className="flex overflow-x-auto"

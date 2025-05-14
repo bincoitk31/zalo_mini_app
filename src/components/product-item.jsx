@@ -35,14 +35,12 @@ const ProductItem = ({product}) => {
   }
 
   const goToProduct = (id) => {
-    console.log(id, "iddd")
     navigate(`/product/${id}`);
     setProductView(product)
   }
 
   const onOpenDrawerAddCart = (e, prod) => {
     e.stopPropagation()
-    console.log("product", prod)
     setProductView(prod)
     setTypeAddCartState('')
     setDrawerAddCart(true)

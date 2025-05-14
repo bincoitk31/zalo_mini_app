@@ -364,7 +364,9 @@ const Checkout = () => {
   const calcDiscountCoupon = (coupon) => {
     const { discount = 0, is_percent, max_discount_by_percent = 0 } = coupon?.promo_code_info || {}
     let value = is_percent ? max_discount_by_percent < Math.floor(totalPrice * discount / 100) && max_discount_by_percent != 0 ? max_discount_by_percent : Math.floor(totalPrice * discount / 100) : discount
-
+    if (coupon?.is_free_shipping) {
+      setShippingFee(0)
+    }
     setDiscountCoupon(value)
     setCoupon(coupon)
   }

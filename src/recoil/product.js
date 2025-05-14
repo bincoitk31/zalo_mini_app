@@ -9,7 +9,6 @@ export const retailPriceState = selector({
   key: "retailPrice",
   get: ({get}) => {
     let product = get(productState)
-    console.log(product, "pppppp")
     return product
   }
 })

@@ -12,15 +12,11 @@ const ListCategory = () => {
   const categories = useRecoilValue(categoriesState)
   const setActiveTab = useSetRecoilState(activeTabState)
   const [categoryChoose, setCategoryChoose] = useRecoilState(categoryChooseState)
-  console.log(categories, "cccc")
 
   const goToCategory = (id) => {
-    //navigate(`/categories/${id}`)
     setCategoryChoose(id)
     navigate('/categories')
   }
-
-  
 
   return (
     <div>

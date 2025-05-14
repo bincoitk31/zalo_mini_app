@@ -84,7 +84,6 @@ const HomePage = () => {
   const getCategoryBlog = async () => {
     const res = await blogStore('getArticles', { category_id: CATEGORY_BLOG, page: 1, limit: 10})
     if (res.status == 200) {
-      console.log(res, "arrticleeee")
       setBlogHome(res.data.result)
     }
   }

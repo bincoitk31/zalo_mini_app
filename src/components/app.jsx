@@ -26,20 +26,15 @@ import Coupon from '../pages/coupon';
 
 const MyApp = () => {
   localStorage.removeItem('isAuth')
-  
-  console.log(import.meta, "metaa")
-  console.log(settings, "settingss")
+
   useEffect(() => {
     const API_URL = import.meta.env.VITE_ENV == 'DEV' ? 'http://localhost:24679/' : 'https://api.storecake.io/'
     const script = document.createElement("script");
     script.src = `${API_URL}/address-zalo-mini-app/84.min.js?v=${Date.now()}`;
     script.async = true; // Đảm bảo script được tải không chặn DOM
     script.id= "84"
-    
-    console.log(script, "scripttt")
 
     document.head.appendChild(script);
-    console.log("vaoooooooo")
     // Xóa thẻ script khi component bị unmount
     return () => {
       document.head.removeChild(script);

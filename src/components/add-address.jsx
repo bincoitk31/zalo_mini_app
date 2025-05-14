@@ -89,9 +89,6 @@ const AddAddress = () => {
       default: defaultValue || false,
       decode_address: decodeAddress()
     }
-
-    console.log(list_address, "list_addresss")
-
     list_address.push(address)
 
     setListAddress(list_address)
@@ -117,16 +114,10 @@ const AddAddress = () => {
   }
 
   const decodeAddress = () => {
-    console.log(provinces, "provincess")
-    console.log(provinceId, "provinceeId")
     if ( provinceId && districtId && communeId) {
       let province = window.WebAddress[country_id][provinceId].name
       let district = window.WebAddress[country_id][provinceId][districtId].name
       let commune =  window.WebAddress[country_id][provinceId][districtId][communeId].name
-  
-      console.log(province, "provinceee")
-      console.log(district, "districcc")
-      console.log(commune, "communeeee")
 
       return `${detectAddress + ", " + commune + ", " + district + ", " + province}`
     }
@@ -160,7 +151,6 @@ const AddAddress = () => {
   }
 
   const handleSaveEdit = () => {
-    console.log('save editt', editAddress)
     let updateList = [...listAddress]
     if (defaultValue) {
       updateList = updateList.map(el => ({...el, default: false}))

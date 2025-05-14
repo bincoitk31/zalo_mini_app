@@ -39,8 +39,8 @@ const Coupon = () => {
   useEffect(() => {
     couponStore('getCoupons')
     .then(res => {
-      console.log(res, "couonnnnn")
-      setCoupons(res.data.coupons)
+      let coupons = res.data.coupons.filter(c => !c.is_used)
+      setCoupons(coupons)
     })
   }, [])
 

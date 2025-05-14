@@ -31,7 +31,6 @@ export const categoryStore = (type, payload = {}) => {
   }
 
   const searchProducts = async () => {
-    console.log(payload, "payloadddd termmm")
     return await getApi(`/search`, { params: payload })
   }
 

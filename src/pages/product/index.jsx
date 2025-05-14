@@ -92,12 +92,6 @@ const Product = () => {
     }
   }
 
-  
-
-  useEffect(() => {
-    console.log("attributeSelected updated:", attributeSelected);
-  }, [attributeSelected]);
-
   useEffect(() => {
     setActiveTab('product')
   }, [])
@@ -108,7 +102,6 @@ const Product = () => {
       if (res.status == 200) {
         const product = res.data.product
         setProductView(product)
-        console.log(product, "producttttttt")
       }
     })
   }, [id])

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import ArticleItem from "./article-item"
 
 const Articles = ({blog}) => {
-  console.log(blog, "bloggg")
   const navigate = useNavigate()
 
   return (

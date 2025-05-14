@@ -19,7 +19,6 @@ const Blog = () => {
   const getBlogs = async () => {
     const res = await blogStore('getBlogs', {page: 1, limit: 30})
     if (res.status == 200) {
-      console.log(res.data.blogs.data, "res bloggg")
       setBlogs(res.data.blogs.data)
     }
   }
@@ -27,7 +26,6 @@ const Blog = () => {
   const getAllArticles = async () => {
     const res = await blogStore('getAllArticles', {page: 1, limit: 30})
     if (res.status == 200) {
-      console.log(res, "all articless")
       setArticles(res.data.result.articles)
     }
   }
@@ -35,7 +33,6 @@ const Blog = () => {
   const getCategoryBlog = async (params) => {
     const res = await blogStore('getArticles', params)
     if (res.status == 200) {
-      console.log(res, "arrticleeee")
       setArticlesCategory(res.data.result.articles)
       setTitleCategory(res.data.result.name)
     }
@@ -44,17 +41,12 @@ const Blog = () => {
   const goToArticles = (id) => {
     setIsCategory(false)
     setOpenListArticle(true)
-    console.log(id, "iddddd")
     let params = {
       category_id: id,
       page: 1,
       limit: 50
     }
     getCategoryBlog(params)
-  }
-
-  const goBack = () => {
-    console.log("go-backkkk")
   }
 
   const children = (key) => {
