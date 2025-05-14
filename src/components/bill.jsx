@@ -14,7 +14,7 @@ const Bill = () => {
   const [localAmount, setLocalAmount] = useState(amountPrice)
 
   useEffect(() => {
-    const amount = totalPrice - discountCoupon - shippingFee
+    const amount = totalPrice - discountCoupon + shippingFee
     console.log(amount, "amountttttt")
     setAmountPrice(amount)
     setLocalAmount(amount)
