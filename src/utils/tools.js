@@ -271,7 +271,8 @@ export const resizeDescription = (description) => {
   const div = document.createElement('div')
   div.innerHTML = description
   div.querySelectorAll('img').forEach(el => {
-    el.setAttribute('src', resizeLink(el.src, parseInt(el.width) < window.innerWidth ? parseInt(el.width) + 400 : window.innerWidth + 400, parseInt(el.height)))
+    const src = el.src || el.getAttribute('data-src')
+    el.setAttribute('src', resizeLink(src, parseInt(el.width) < window.innerWidth ? parseInt(el.width) + 400 : window.innerWidth + 400, parseInt(el.height)))
   })
   return div.innerHTML
 }

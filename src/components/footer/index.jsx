@@ -59,7 +59,7 @@ const FooterCustom = (props) => {
   }
   
   useEffect(() => {
-    let cartItemsLocal = getDataToStorage("cart-items")
+    let cartItemsLocal = getDataToStorage("cart-items") || []
     setCartItems(cartItemsLocal)
   }, [])
 
