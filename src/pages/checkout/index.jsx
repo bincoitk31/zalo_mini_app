@@ -397,12 +397,13 @@ const Checkout = () => {
   }, [listAddress])
 
   useEffect(() => {
+    console.log(cartItems, "cartItems")
     const params = {
       country: 84,
       province: customerInfo ?.province_id,
       districts: customerInfo ?.district_id,
       communes: customerInfo ?.commune_id,
-      total_price: parseInt(totalPrice),
+      total_price: cartItems.reduce((acc, item) => acc + parseInt(item.retail_price) * parseInt(item.quantity), 0),
       quantity: cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0),
       weight: cartItems.reduce((acc, item) => acc + parseInt(item.weight) * parseInt(item.quantity), 0),
       site_id: import.meta.env.VITE_SITE_ID,
@@ -410,7 +411,7 @@ const Checkout = () => {
       shipping_fee_id: null,
       category_ids: cartItems.map(item => item.categories ? item.categories.map(c => c.id) : []).flat()
     }
-
+    console.log(params, "params")
     orderStore('getShippingFee', params)
     .then(res => {
       if (res.status == 200) {
@@ -420,6 +421,14 @@ const Checkout = () => {
 
   }, [customerInfo, cartItems])
 
+  // useEffect(() => {
+  //   orderStore('getPriceShipOrders', {country_id: 84})
+  //   .then(res => {
+  //     if (res.status == 200) {
+  //       console.log(res, "getPriceShipOrders")
+  //     }
+  //   })
+  // }, [])
 
   useEffect(() => {
     const params = {
