@@ -158,7 +158,7 @@ const AddToCart = () => {
        <div>
           <div className="flex p-3 border-b border-b-solid border-b-[#dcdcdc]">
             <div className="w-[56px] h-[56px]">
-              <img className="w-full h-full object-fill rounded-lg" src={resizeLink(product ?.variations[0] ?.images[0] || '')} />
+              <img className="w-full h-full object-cover rounded-lg" src={resizeLink(product ?.variations[0] ?.images[0] || '')} />
             </div>
             <div className="flex-1 pl-2">
               <div className="font-medium">{product.name}</div>

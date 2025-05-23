@@ -66,7 +66,7 @@ const Category = () => {
               key={c.id}
               >
                 <div className="p-2 flex items-center justify-center w-[62px] h-[62px]">
-                  <img className="w-full h-full object-fill rounded-md" src={resizeLink(c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png")} />
+                  <img className="w-full h-full object-cover rounded-md" src={resizeLink(c.image || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png")} />
                 </div>
                 <div className="text-zinc-500 text-truncate-2-line text-[12px] text-center">{c.name}</div>
               </div>
