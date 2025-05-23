@@ -397,7 +397,6 @@ const Checkout = () => {
   }, [listAddress])
 
   useEffect(() => {
-    console.log(cartItems, "cartItems")
     const params = {
       country: 84,
       province: customerInfo ?.province_id,
@@ -411,7 +410,6 @@ const Checkout = () => {
       shipping_fee_id: null,
       category_ids: cartItems.map(item => item.categories ? item.categories.map(c => c.id) : []).flat()
     }
-    console.log(params, "params")
     orderStore('getShippingFee', params)
     .then(res => {
       if (res.status == 200) {

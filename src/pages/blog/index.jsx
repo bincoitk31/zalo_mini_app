@@ -66,7 +66,7 @@ const Blog = () => {
                 blogs.map(el => (
                   <div className="border border-solid border-[#eee] rounded-lg overflow-hidden" onClick={() => goToArticles(el.id)}>
                     <div>
-                      <img src={resizeLink(el.image || "")} className="object-cover w-full h-[80px]" />
+                      <img src={resizeLink(el.image || "")} className="object-fill w-full h-[80px]" />
                     </div>
                     <div className="px-2 pt-2 pb-2">
                       <div className="font-medium text-truncate-2-line pb-1 h-10">{el.name}</div>

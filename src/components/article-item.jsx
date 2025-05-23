@@ -16,7 +16,7 @@ const ArticleItem = ({article}) => {
   return (
     <div className="border border-solid border-[#eee] rounded-lg overflow-hidden" onClick={() => goToArticle(article.id)}>
     <div>
-      <img src={resizeLink(article.images?.[0] || "")} className="object-cover w-full h-[80px]" />
+      <img src={resizeLink(article.images?.[0] || "")} className="object-fill w-full h-[80px]" />
     </div>
     <div className="px-2 pt-2 pb-2">
       <div className="font-medium text-truncate-2-line pb-1 h-11">{article.name}</div>

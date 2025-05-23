@@ -11,7 +11,7 @@ const Carousel = () => {
         SLIDERS.map((el, idx) => (
           <Swiper.Slide key={idx}>
             <img
-              className="slide-img h-[200px] w-full object-cover"
+              className="slide-img h-[200px] w-full object-fill"
               src={resizeLink(el.url, 400, 200)}
               alt={`slide-${idx}`}
             />

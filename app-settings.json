@@ -1,13 +1,11 @@
 {
   "categories_home": [
+    "fb04b262-2f4a-4ef1-8ca7-068b9fed5d95",
     "e8ed458b-d6c7-414e-9cf4-02e1078a56eb",
-    "649d72ae-9caf-45ac-935b-e9cf1654d932",
-    "3a543a9d-0f0e-40c2-be40-c982e33eb249",
-    "c8ca3c61-1b9b-449d-8c11-4df303da6cab",
-    "58876a07-fd83-4859-b7af-788d4480b636",
-    "179e8d3b-44de-4ccd-9fcc-6830845c3ab5"
-  ]
-  ,
+    "2ac88fc5-1a37-4a52-959f-7c528706002d",
+    "9e4e6eef-6e0d-4355-8499-e792ede5a0a6",
+    "649d72ae-9caf-45ac-935b-e9cf1654d932"
+  ],
   "sliders": [
     {
       "type": "image",

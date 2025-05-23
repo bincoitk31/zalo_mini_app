@@ -12,7 +12,7 @@ const SliderProduct = ({images, product}) => {
     return (
       images.map((src, idx) => (
         <div key={idx} className="w-full h-[360px]">
-          <img src={resizeLink(src, 460, 360)} className="w-full h-full object-cover" />
+          <img src={resizeLink(src, 460, 360)} className="w-full h-full object-fill" />
         </div>
       ))
     )
