@@ -107,7 +107,7 @@ const HomePage = () => {
         </div>
         <div className="pl-2 text-[#fff] text-[12px]">
           <div>Xin chào,</div>
-          <div className="font-bold">{customer.name || 'Guest'}</div>
+          <div className="font-bold">{customer.name || 'Quý khách'}</div>
         </div>
       </div>
       {/* <div className="relative h-[100px] bg-[#fff]">

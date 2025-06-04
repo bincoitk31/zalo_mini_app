@@ -79,7 +79,7 @@ const HeaderCustom = () => {
               <img src={customer.avatar || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"} className="w-[36px] h-[36px] rounded-full"/>
             </div>
             <div className="pl-2 text-[#fff] text-[12px] flex items-center">
-              <div className="font-bold">{customer.name || 'Guest'}</div>
+              <div className="font-bold">{customer.name || 'Quý khách'}</div>
             </div>
           </div>
         </div>
