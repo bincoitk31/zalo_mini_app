@@ -15,7 +15,7 @@ app.use(express.json()); // To parse JSON request bodies
 
 app.post('/api/deploy', async (req, res) => {
   const { createReadStream } = require('fs')
-  const { env, description, app_id, site_id, zalo_oa_id, zalo_private_key, settings, name } = req.body
+  const { env, description, app_id, site_id, zalo_oa_id, zalo_private_key, settings, name, zalo_secret_key } = req.body
 
   try {
     // Kiểm tra các tham số bắt buộc
@@ -30,6 +30,7 @@ app.post('/api/deploy', async (req, res) => {
     process.env.VITE_ZALO_PRIVATE_KEY = zalo_private_key
     process.env.VITE_ENV = env
     process.env.APP_ID = app_id
+    process.env.VITE_ZALO_SECRET_KEY = zalo_secret_key
     //write settings to app-settings.json
     fs.writeFileSync('app-settings.json', JSON.stringify(settings, null, 2), 'utf8');
 
