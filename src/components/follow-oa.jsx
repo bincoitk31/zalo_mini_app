@@ -1,8 +1,9 @@
+import { useEffect, useState } from "react"
 import { Button } from "antd"
 import { useRecoilState } from "recoil"
-import { followOA, unfollowOA, interactOA } from "zmp-sdk/apis"
+import { followOA, unfollowOA, getUserID} from "zmp-sdk/apis"
 import { memberZaloState, customerState } from "../recoil/member"
-import { resizeLink, setDataToStorage } from "../utils/tools"
+import { resizeLink, setDataToStorage, getDataToStorage, removeStorageData, isEmpty } from "../utils/tools"
 import { postApi } from "../utils/request"
 import settings from "../../app-settings.json"
 
@@ -10,8 +11,18 @@ const FollowOA = () => {
   const ZALO_OA_ID = settings ?.zalo_oa_id
   const ZALO_OA_NAME = settings ?.zalo_oa_name
   const ZALO_OA_LOGO = settings ?.zalo_oa_logo || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"
+  const [userId, setUserId] = useState(null)
   const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
   const [customer, setCustomer] = useRecoilState(customerState)
+
+  const getUserIdZalo = async (followedOA) => {
+    try {
+      const user_id = await getUserID()
+      setDataToStorage('guest', {id: user_id, followedOA: followedOA})
+    } catch (error) {
+      console.log(error, "Error get user id zalo")
+    }
+  }
 
   const updateCustomer = async (followedOA) => {
     try {
@@ -21,6 +32,7 @@ const FollowOA = () => {
       if (res.status == 200) {
         setCustomer(res.data.customer)
         setDataToStorage('customerStore', res.data.customer)
+        removeStorageData('guest')
       }
     } catch(error) {
       console.log(error, "Error login storecake")
@@ -33,8 +45,10 @@ const FollowOA = () => {
         id: ZALO_OA_ID
       });
       setMemberZalo({...memberZalo, followedOA: false})
-      if (customer) {
+      if (customer ?.id) {
         updateCustomer(false)
+      } else {
+        getUserIdZalo(false)
       }
     } catch (error) {
       // xử lý khi gọi api thất bại
@@ -48,14 +62,23 @@ const FollowOA = () => {
         id: ZALO_OA_ID
       });
       setMemberZalo({...memberZalo, followedOA: true})
-      if (customer) {
+      if (customer ?.id) {
         updateCustomer(true)
+      } else {
+        getUserIdZalo(true)
       }
     } catch (error) {
       // xử lý khi gọi api thất bại
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const guest = getDataToStorage('guest')
+    if (!memberZalo?.id && !isEmpty(guest)) {
+      setMemberZalo({...memberZalo, ...guest})
+    }
+  }, [])
 
   return (
     <div className="p-2 bg-[#fff]">

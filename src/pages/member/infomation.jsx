@@ -55,8 +55,11 @@ const Infomation = () => {
       secret_key: secretKey,
     }
 
+    console.log(options, "optionsss")
+
     getApiAxios(url, {headers: options})
     .then(res => {
+      console.log(res, "get res phonenumber")
       if (res.status == 200) {
         let data = {
           phone_number: formatPhoneNumber(res.data.data.number),

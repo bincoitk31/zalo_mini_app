@@ -1,8 +1,8 @@
-import React, { act, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { activeTabState } from "../../recoil/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { memberZaloState, customerState } from "../../recoil/member";
+import { useRecoilState } from "recoil";
+import { customerState } from "../../recoil/member";
 import { CaretLeft, HouseLine, MagnifyingGlass } from '@phosphor-icons/react';
 import { Input } from "antd";
 import { termSearchState } from "../../recoil/category";
@@ -12,7 +12,6 @@ const HeaderCustom = () => {
   const location = useLocation()
   const [activeTab, setActiveTab] = useRecoilState(activeTabState)
   const [isVisible, setIsVisible] = useState(false)
-  const memberZalo = useRecoilValue(memberZaloState)
   const [term, setTerm] = useRecoilState(termSearchState)
   const [customer, setCustomer] = useRecoilState(customerState)
 
@@ -59,6 +58,10 @@ const HeaderCustom = () => {
     };
     setActiveTab(tabMapping[location.pathname] || "home");
   }, [location])
+
+  useEffect(() => {
+    console.log(customer, "customer headerr")
+  }, [customer])
 
   useEffect(() => {
     const page = document.querySelector('.zaui-page')
