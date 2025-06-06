@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Page } from "zmp-ui";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState} from "recoil";
 import { carouselState } from "../recoil/atoms";
 import { categoryStore, categoriesState, categoryChooseState, categoriesHomeState } from "../recoil/category";
 import { useNavigate } from "react-router-dom";
-import { memberZaloState, phoneMemberZaloState, customerState } from "../recoil/member";
+import { customerState } from "../recoil/member";
 import { getDataToStorage } from '../utils/tools';
 import { blogStore, blogHomeState } from "../recoil/blog";
 
@@ -22,9 +22,7 @@ const HomePage = () => {
   const navigate = useNavigate()
   const carousel = useRecoilValue(carouselState)
   const [categories, setCategories] = useRecoilState(categoriesState)
-  const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
   const [categoryChoose, setCategoryChoose] = useRecoilState(categoryChooseState)
-  const setPhoneMemberZalo = useSetRecoilState(phoneMemberZaloState)
   const [categoriesHome, setCategoriesHome] = useRecoilState(categoriesHomeState)
   const [customer, setCustomer] = useRecoilState(customerState)
   const [blogHome, setBlogHome] = useRecoilState(blogHomeState)

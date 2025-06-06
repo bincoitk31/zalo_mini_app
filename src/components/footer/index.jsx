@@ -4,7 +4,6 @@ import { activeTabState } from "../../recoil/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { drawerAddCartState, typeAddCartState } from "../../recoil/product";
 import { openCartState, openAddAddressState, cartItemsState } from "../../recoil/order";
-import { memberZaloState } from "../../recoil/member";
 import { Button, Badge } from 'antd'
 import { HouseLine, ListMagnifyingGlass, ShoppingBag, User, ChatCircleDots } from '@phosphor-icons/react'
 import { openChat, getUserID } from "zmp-sdk/apis";
@@ -18,7 +17,6 @@ const FooterCustom = (props) => {
   const [drawerAddCart, setDrawerAddCart] = useRecoilState(drawerAddCartState)
   const [openCart, setOpenCart] = useRecoilState(openCartState)
   const [openAddAddress, setOpenAddAddress] = useRecoilState(openAddAddressState)
-  const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
   const [cartItems, setCartItems] = useRecoilState(cartItemsState)
   const [userId, setUserId] = useState()
 

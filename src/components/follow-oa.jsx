@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Button } from "antd"
 import { useRecoilState } from "recoil"
-import { followOA, unfollowOA, getUserID} from "zmp-sdk/apis"
-import { memberZaloState, customerState } from "../recoil/member"
-import { resizeLink, setDataToStorage, getDataToStorage, removeStorageData, isEmpty } from "../utils/tools"
+import { followOA, unfollowOA, getUserID, getUserInfo} from "zmp-sdk/apis"
+import { customerState } from "../recoil/member"
+import { resizeLink, setDataToStorage, getDataToStorage, removeStorageData} from "../utils/tools"
 import { postApi } from "../utils/request"
 import settings from "../../app-settings.json"
 
@@ -11,14 +11,13 @@ const FollowOA = () => {
   const ZALO_OA_ID = settings ?.zalo_oa_id
   const ZALO_OA_NAME = settings ?.zalo_oa_name
   const ZALO_OA_LOGO = settings ?.zalo_oa_logo || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"
-  const [userId, setUserId] = useState(null)
-  const [memberZalo ,setMemberZalo] = useRecoilState(memberZaloState)
   const [customer, setCustomer] = useRecoilState(customerState)
 
   const getUserIdZalo = async (followedOA) => {
     try {
       const user_id = await getUserID()
-      setDataToStorage('guest', {id: user_id, followedOA: followedOA})
+      setDataToStorage('customerStore', {...customer, id: user_id, zalo_followedOA: followedOA, is_guest: true})
+      setCustomer({ ...customer, id: user_id, zalo_followedOA: followedOA, is_guest: true})
     } catch (error) {
       console.log(error, "Error get user id zalo")
     }
@@ -26,13 +25,26 @@ const FollowOA = () => {
 
   const updateCustomer = async (followedOA) => {
     try {
+      let data = {}
+      if (followedOA) {
+        const { userInfo } = await getUserInfo({})
+        data = {...customer, zalo_id_by_oa: userInfo.idByOA, zalo_user_id: userInfo.id, zalo_followedOA: true}
+      } else {
+        data = {...customer, zalo_followedOA: false}
+      }
+
+      if (customer ?.is_guest) {
+        setDataToStorage('customerStore', data)
+        setCustomer(data)
+        return
+      }
+
       let url = "/login"
-      let data = {...customer, zalo_followedOA: followedOA}
+      console.log(data, "data update customer")
       const res = await postApi(url, data)
       if (res.status == 200) {
-        setCustomer(res.data.customer)
         setDataToStorage('customerStore', res.data.customer)
-        removeStorageData('guest')
+        setCustomer(res.data.customer)
       }
     } catch(error) {
       console.log(error, "Error login storecake")
@@ -44,11 +56,11 @@ const FollowOA = () => {
       const res = await unfollowOA({
         id: ZALO_OA_ID
       });
-      setMemberZalo({...memberZalo, followedOA: false})
-      if (customer ?.id) {
-        updateCustomer(false)
-      } else {
+      removeStorageData('customerStore')
+      if (customer ?.is_guest) {
         getUserIdZalo(false)
+      } else {
+        updateCustomer(false)
       }
     } catch (error) {
       // xử lý khi gọi api thất bại
@@ -61,11 +73,10 @@ const FollowOA = () => {
       const res = await followOA({
         id: ZALO_OA_ID
       });
-      setMemberZalo({...memberZalo, followedOA: true})
-      if (customer ?.id) {
-        updateCustomer(true)
-      } else {
+      if (customer ?.is_guest) {
         getUserIdZalo(true)
+      } else {
+        updateCustomer(true)
       }
     } catch (error) {
       // xử lý khi gọi api thất bại
@@ -74,10 +85,8 @@ const FollowOA = () => {
   }
 
   useEffect(() => {
-    const guest = getDataToStorage('guest')
-    if (!memberZalo?.id && !isEmpty(guest)) {
-      setMemberZalo({...memberZalo, ...guest})
-    }
+    const customerStore = getDataToStorage('customerStore')
+    if (customerStore) return setCustomer({...customerStore})
   }, [])
 
   return (
@@ -90,7 +99,7 @@ const FollowOA = () => {
             <div className="font-bold pl-2"> { ZALO_OA_NAME } </div>
           </div>
           {
-            memberZalo ?.followedOA ?
+            customer ?.zalo_followedOA ?
             <Button onClick={() => unfollow()} color="default" variant="solid" className="font-bold text-[12px] rounded-full">Bỏ quan tâm</Button>
             :
             <Button onClick={() => follow()} color="default" variant="solid" className="font-bold text-[12px] rounded-full">Quan tâm</Button>

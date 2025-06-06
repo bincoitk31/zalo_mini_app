@@ -17,9 +17,8 @@ import { formatNumber } from "../../utils/formatNumber"
 import { useNavigate } from "react-router-dom"
 import { validatePhoneNumber, isValidEmail } from "../../utils/tools"
 import { activeTabState } from "../../recoil/atoms"
-import { memberZaloState, phoneMemberZaloState, customerState } from "../../recoil/member"
+import { customerState } from "../../recoil/member"
 import { AirplaneTilt, Package, User, MapPinLine, Plus } from '@phosphor-icons/react'
-import { } from "../../recoil/order"
 import { Payment, events, EventName } from "zmp-sdk/apis"
 import { couponStore } from "../../recoil/coupon"
 

@@ -1,14 +1,12 @@
-import { memberZaloState, phoneMemberZaloState, customerState } from "../../recoil/member"
+import { customerState } from "../../recoil/member"
 import { useRecoilState } from "recoil"
 import { SignIn, CaretRight } from "@phosphor-icons/react"
-import { authorize, getPhoneNumber, getAccessToken, getUserInfo, nativeStorage } from "zmp-sdk/apis"
+import { authorize, getPhoneNumber, getAccessToken, getUserInfo } from "zmp-sdk/apis"
 import { getApiAxios, postApi } from '../../utils/request'
 import { setDataToStorage, getDataToStorage } from '../../utils/tools'
 import { useEffect } from "react"
 
 const Infomation = () => {
-  const [phoneNumber, setPhoneMember] = useRecoilState(phoneMemberZaloState)
-  const [memberZalo, setMemberZalo] = useRecoilState(memberZaloState)
   const [customer, setCustomer] = useRecoilState(customerState)
 
   const getUser = async () => {
@@ -65,8 +63,9 @@ const Infomation = () => {
           phone_number: formatPhoneNumber(res.data.data.number),
           avatar: userInfo.avatar,
           name: userInfo.name,
-          zalo_id: userInfo.idByOA,
-          zalo_followOA: userInfo.followedOA
+          zalo_id_by_oa: userInfo.idByOA,
+          zalo_followOA: userInfo.followedOA,
+          zalo_user_id: userInfo.id
         }
         loginStorecake(data)
 
@@ -121,7 +120,7 @@ const Infomation = () => {
     <>
       <div>
         <div className="font-bold"> Thông tin khách hàng </div>
-        {customer.id ?
+        {!customer ?.is_guest ?
           <div className="flex pt-2">
             <div>
               <img src={customer.avatar} className="w-[50px] h-[50px] rounded-full"/>
