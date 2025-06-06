@@ -11,6 +11,7 @@ const FollowOA = () => {
   const ZALO_OA_ID = settings ?.zalo_oa_id
   const ZALO_OA_NAME = settings ?.zalo_oa_name
   const ZALO_OA_LOGO = settings ?.zalo_oa_logo || "https://content.pancake.vn/1.1/s450x450/fwebp/87/12/e9/86/59eb6fdc125b4840df72b830615bafd86e3bfcc3bbf6a92beef2efca.png"
+  const HIDE_ZALO_OA_WHEN_CUSTOMER_FOLLOWED = settings ?.hide_zalo_oa_when_customer_followed || false
   const [customer, setCustomer] = useRecoilState(customerState)
 
   const getUserIdZalo = async (followedOA) => {
@@ -90,7 +91,10 @@ const FollowOA = () => {
   }, [])
 
   return (
-    <div className="p-2 bg-[#fff]">
+    HIDE_ZALO_OA_WHEN_CUSTOMER_FOLLOWED && customer ?.zalo_followedOA ?
+    <></>
+    :
+    <div className="p-2 bg-[#fff]" >
       <div className="p-2 border border-solid border-[#000] rounded-lg bg-[#f2f2f2]">
         <div className="border-b border-b-solid border-[#fff] pb-2">Quan tâm OA để nhận các đặc quyền ưu đãi </div>
         <div className="flex justify-between items-center pt-2">
