@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil"
+import { atom } from "recoil"
 import { getApi } from "../utils/request"
 
 export const totalPriceState = atom({
@@ -51,6 +51,11 @@ export const shippingFeeState = atom({
   default: 0
 })
 
+export const paymentMethodState = atom({
+  key: 'paymentMethod',
+  default: {method: 'COD', logo: 'https://stc-zmp.zadn.vn/payment/cod.png', displayName: "Thanh toán khi nhận hàng"}
+})
+
 export const orderStore = (type, payload = {}) => {
   const getShippingFee = async () => {
     return await getApi("/orders/shipping_fee", {params: payload})
@@ -64,10 +69,15 @@ export const orderStore = (type, payload = {}) => {
     return await getApi("/products/get_product_by_ids", {params: payload})
   }
 
+  const getPaymentMethods = async () => {
+    return await getApi("/orders/get_payment_channels", {params: payload})
+  }
+
   const obj = {
     getShippingFee,
     getProductByIds,
-    getPriceShipOrders
+    getPriceShipOrders,
+    getPaymentMethods
   }
 
   return obj[type](payload)

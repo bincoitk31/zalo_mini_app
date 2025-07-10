@@ -15,13 +15,33 @@ export const customerState = atom({
   }
 })
 
+export const openPointsHistoryState = atom({
+  key: "openPointsHistory",
+  default: false
+})
+
+export const customerLevelsPosState = atom({
+  key: "customerLevelsPos",
+  default: []
+})
+
 export const memberStore = (type, payload = {}) => {
   const getMemberShip = async () => {
     return await getApi("/membership", {params: payload})
   }
 
+  const getPointsHistory = async () => {
+    return await getApi("/membership/point_logs", {params: payload})
+  }
+
+  const getCustomerLevelsPos = async () => {
+    return await getApi("/membership/customer_levels_pos", {params: payload})
+  }
+
   const obj = {
-    getMemberShip
+    getMemberShip,
+    getPointsHistory,
+    getCustomerLevelsPos
   }
 
   return obj[type](payload)

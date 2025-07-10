@@ -94,7 +94,7 @@ const FooterCustom = (props) => {
           </div>
         </div>
       }
-   
+
       {drawerAddCart && <AddToCart />}
       {openCart && <Cart />}
       {openAddAddress && <AddAddress />}

@@ -49,7 +49,7 @@ const ShareLink = () => {
           }}
         />
       </div>
-      <div className="pt-2">Mời bạn tham gia "{OA_NAME}" trên ứng dụng Shop thời trang qua đường dẫn hoặc Quét mã QR tải App</div>
+      <div className="pt-2">Mời bạn tham gia "{OA_NAME}" trên ứng dụng qua đường dẫn hoặc Quét mã QR tải</div>
       <div className="flex items-center justify-between bg-[#ccc] rounded-md h-[28px] px-2 mx-4 mt-4">
         <div className="truncate pr-1">{link}</div>
         <div className="w-[20px]" onClick={copyToClipboard}>

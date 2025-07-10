@@ -65,17 +65,7 @@ const Member = () => {
           </div>
         </div>
         <div className="h-[1px] w-full bg-[#eee]"></div>
-        <div onClick={() => goTo('/contact')} className="flex justify-between items-center py-2">
-          <div className="flex items-center">
-            <div><Phone size={20} color="#141415" /></div>
-            <div className="text-[12px] text-center pl-2">Liên hệ và góp ý</div>
-          </div>
-          <div>
-            <CaretRight size={18} color="#141415" />
-          </div>
-        </div>
       </div>
-      
       <FollowOA />
       <ShareLink />
     </div>

@@ -1,18 +1,23 @@
 const express = require('express');
-const { spawn, exec } = require('child_process');
+const { exec } = require('child_process');
 const fs = require('fs');
 require('dotenv').config();
 const { PartnerClient, deployMiniApp } = require("zmp-openapi-nodejs")
+
 const app = express();
-const port = 3000;
+const port = 3001;
 
 const client = new PartnerClient(
   "97771a9d-16ac-4de7-a6ec-d5fe7419fe1d",
   "1133",
 )
 
-app.use(express.json()); // To parse JSON request bodies
 
+// Express middleware và routes
+app.use(express.json());
+//end
+
+// router
 app.post('/api/deploy', async (req, res) => {
   const { createReadStream } = require('fs')
   const { env, description, app_id, site_id, zalo_oa_id, zalo_private_key, settings, name, zalo_secret_key } = req.body

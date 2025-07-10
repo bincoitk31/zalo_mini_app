@@ -1,21 +1,21 @@
-import React, { useState} from "react"
+import React, { useState, useEffect } from "react"
 import { Payment } from "zmp-sdk/apis";
 import { Button } from "antd";
-import { totalPriceState, cartItemsState } from "../recoil/order";
-import { useRecoilValue } from "recoil";
+
+import { orderStore, paymentMethodState } from "../recoil/order";
+import { useRecoilState } from "recoil";
 
 const PaymentMethod = () => {
-  const [payment, setPayment] = useState({logo: 'https://stc-zmp.zadn.vn/payment/cod.png', displayName: "Thanh toán khi nhận hàng"})
-  const totalPrice = useRecoilValue(totalPriceState)
-  const cartItems = useRecoilValue(cartItemsState)
+  const [paymentMethods, setPaymentMethods] = useState([{method: 'COD'}])
+  const [payment, setPayment] = useRecoilState(paymentMethodState)
 
   const handlePaymentMethod = () => {
+    const channels = paymentMethods.map(el => ({method: el.method})) || [{method: 'COD'}]
     Payment.selectPaymentMethod({
-      channels: [
-        { method: "COD" },
-      ],
+      channels,
       success: (data) => {
         // Lựa chọn phương thức thành công
+        console.log(data, 'payment selectedd')
         const { method, isCustom, logo, displayName, subMethod } = data;
         setPayment(data)
       },
@@ -25,6 +25,21 @@ const PaymentMethod = () => {
       },
     });
   }
+
+  useEffect(() => {
+    const params = {
+      mini_app_id: import.meta.env.VITE_APP_ID
+    }
+
+    orderStore('getPaymentMethods', params)
+    .then(res => {
+      console.log(res, 'res payment methods')
+      if(res.status == 200 && res.data.result.error == 0) {
+        const paymentsActive = res.data.result.paymentChannels.filter(el => el.status == "ACTIVE")
+        setPaymentMethods(paymentsActive)
+      }
+    })
+  }, [])
 
   return (
     <div className="p-3 border-b-[8px] border-b-solid border-b-[#efefef]">

@@ -9,7 +9,8 @@ import {
   listAddressState,
   openAddAddressState,
   orderStore,
-  shippingFeeState
+  shippingFeeState,
+  paymentMethodState
 } from "../../recoil/order"
 import { Button, Input, message, Select, Space, ConfigProvider } from "antd"
 import { postApi, postApiAxios } from "../../utils/request"
@@ -19,7 +20,7 @@ import { validatePhoneNumber, isValidEmail } from "../../utils/tools"
 import { activeTabState } from "../../recoil/atoms"
 import { customerState } from "../../recoil/member"
 import { AirplaneTilt, Package, User, MapPinLine, Plus } from '@phosphor-icons/react'
-import { Payment, events, EventName } from "zmp-sdk/apis"
+import { Payment, events, EventName, CheckoutSDK } from "zmp-sdk/apis"
 import { couponStore } from "../../recoil/coupon"
 
 import CartItems from "../../components/cart-items"
@@ -50,6 +51,7 @@ const Checkout = () => {
   const [districtId, setDistrictId] = useState()
   const [note, setNote] = useState()
   const [couponName, setCouponName] = useState()
+  const [paymentMethod, setPaymentMethod] = useRecoilState(paymentMethodState)
 
   const renderProvince = () => {
     if(!window.WebAddress[country_id]) return
@@ -157,11 +159,34 @@ const Checkout = () => {
     if (customerInfo ?.email && !isValidEmail(customerInfo ?.email)) return message.error("Email hợp lệ!")
     if (!customerInfo ?.province_id || !customerInfo ?.district_id || !customerInfo ?.commune_id) return message.error("Địa chỉ không được để trống!")
 
-    createOrderZalo()
+      console.log(paymentMethod, "paymentMethoddd")
+
+    if (paymentMethod.isCustom) {
+      createOrderZaloCustom()
+    } else {
+      createOrderZalo()
+    }
+  }
+
+  const createOrderZaloCustom = async () => {
+    console.log('createOrderZaloNew')
+    try {
+      const res = await CheckoutSDK.purchase({
+        desc: `Thanh toán ${amountPrice}`,
+        amount: amountPrice,
+        method: paymentMethod.method,
+      });
+      console.log(res, 'res zalo new')
+      createOrder(res.orderId)
+    } catch (error) {
+      // xử lý lỗi
+      message.error("Lỗi tạo đơn hàng zalo, vui lòng liên hệ admin để được hỗ trợ")
+      console.log(error, 'error create order zalo');
+    }
   }
 
   const createOrder = async (zalo_order_id) => {
-
+    console.log(zalo_order_id, 'zalo_order_id')
     // check duplicate order
     const lock_zalo_order_id = getDataToStorage('lock_zalo_order_id')
     if (lock_zalo_order_id == zalo_order_id) return
@@ -181,6 +206,8 @@ const Checkout = () => {
       location: `https://zalo.me/s/${import.meta.env.VITE_APP_ID}/`,
       customer: customer,
       shipping_fee: shippingFee,
+      payment_method: paymentMethod.method ? paymentMethod.method.split('_')[0].toLocaleLowerCase() : 'cod',
+      payment_status: 0,
       form_data: {
         coupon: {
           value: couponRef.current
@@ -193,8 +220,19 @@ const Checkout = () => {
 
     const res = await postApi("/orders/quick_order", data)
 
+    console.log(res, 'res order')
+
     if (res.status == 200) {
-      afterSubmitSuccess()
+      if (res.data.order.payment_method == 'storecake') {
+        // mở popup thanh toán TCB
+        setCartItems([])
+        localStorage.removeItem('cartItems')
+        setLoadingOrder(false)
+        goTo(`/qr-tcb/${res.data.order.render_id}`)
+      } else {
+        afterSubmitSuccess()
+      }
+      
     } else {
       updateOrderZalo(zalo_order_id)
       const result = res.response.data.reason
@@ -244,7 +282,7 @@ const Checkout = () => {
       //   myTransactionId: id
       // },
       method: {
-        id: "COD",
+        id: paymentMethod.method,
         isCustom: false,
       }
     }
@@ -275,25 +313,24 @@ const Checkout = () => {
         //   myTransactionId: id // transaction id riêng của hệ thống của bạn
         // }),
         method: JSON.stringify({
-          id: "COD", // Phương thức thanh toán
-          isCustom: false, // false: Phương thức thanh toán của Platform, true: Phương thức thanh toán riêng của đối tác
+          id: paymentMethod.method,
+          isCustom: false,
         }),
         mac: mac,
         success: (data) => {
-          // Tạo đơn hàng thành công
-          // Hệ thống tự động chuyển sang trang thanh toán.
+          // Tạo đơn hàng thành công, Hệ thống tự động chuyển sang trang thanh toán.
           const { orderId } = data;
+          console.log(orderId, 'orderId zalo')
           //createOrder(orderId)
         },
         fail: (err) => {
           // Tạo đơn hàng lỗi
           setLoadingOrder(false)
-          console.log(err);
-         
+          console.log(err, "error order zalo");
         },
       });
 
-    }
+  }
 
   const afterSubmitSuccess = () => {
     setCartItems([])
@@ -514,7 +551,7 @@ const Checkout = () => {
         const { orderId, resultCode, msg, transTime, createdAt } = data;
       }
     });
-  }, []) // Empty dependency array since we're using ref
+  }, [])
 
   return (
     <>
