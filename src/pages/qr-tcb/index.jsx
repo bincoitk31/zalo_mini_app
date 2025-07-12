@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { QRCodeCanvas } from "qrcode.react"
-import { getQRCodeBankPayment } from "../../utils/genQRBanking"
+import { getQRCodeBankPayment } from "../../utils/genQRbanking"
 import { getBankingTransferContent, isEmpty, slugifyBankingContent } from "../../utils/tools"
 import { Button, Spin, message } from "antd"
 import { formatNumber } from "../../utils/formatNumber"
