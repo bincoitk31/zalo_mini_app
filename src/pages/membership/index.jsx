@@ -21,7 +21,6 @@ const Membership = () => {
       memberStore('getMemberShip', {id: customer.id})
       .then(res => {
         if (res.status == 200) {
-          console.log(res.data.member, "res.data.member")
           setCustomer(res.data.member)
         }
       })
@@ -32,7 +31,6 @@ const Membership = () => {
     memberStore('getCustomerLevelsPos')
     .then(res => {
       if (res.status == 200) {
-        console.log(res.data.result, "res.data.result get customer levels pos")
         setCustomerLevelsPos(res.data.result)
       }
     })
@@ -46,7 +44,6 @@ const Membership = () => {
   useEffect(() => {
     if (customerLevelsPos.length > 0 && customer ?.pos_info ?.level ?.id) {
       const level = customerLevelsPos.find(item => item.id == customer.pos_info.level.id)
-      console.log(level, "level")
       setCustomerLevel(level)
     }
   }, [customerLevelsPos, customer])

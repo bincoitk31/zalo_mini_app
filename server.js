@@ -5,7 +5,7 @@ require('dotenv').config();
 const { PartnerClient, deployMiniApp } = require("zmp-openapi-nodejs")
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 const client = new PartnerClient(
   "97771a9d-16ac-4de7-a6ec-d5fe7419fe1d",
