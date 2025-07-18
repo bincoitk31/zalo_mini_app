@@ -88,7 +88,9 @@ const Checkout = () => {
   }
 
   const setOrderItems = () => {
-    const orders = cartItems.map(item => {
+    const cartItemsStorage = getDataToStorage('cart-items') || []
+    console.log(cartItemsStorage, 'cartItems')
+    const orders = cartItemsStorage.map(item => {
       const variation_info = {
         id: item.id,
         custom_id: item.custom_id,
@@ -218,6 +220,7 @@ const Checkout = () => {
       }
     }
 
+    console.log('data', data)
     const res = await postApi("/orders/quick_order", data)
 
     console.log(res, 'res order')
@@ -226,13 +229,12 @@ const Checkout = () => {
       if (res.data.order.payment_method == 'storecake') {
         // mở popup thanh toán TCB
         setCartItems([])
-        localStorage.removeItem('cartItems')
+        setDataToStorage('cart-items', [])
         setLoadingOrder(false)
         goTo(`/qr-tcb/${res.data.order.render_id}`)
       } else {
         afterSubmitSuccess()
       }
-      
     } else {
       updateOrderZalo(zalo_order_id)
       const result = res.response.data.reason
@@ -334,7 +336,7 @@ const Checkout = () => {
 
   const afterSubmitSuccess = () => {
     setCartItems([])
-    localStorage.removeItem('cartItems')
+    setDataToStorage('cart-items', [])
     navigate("/")
     setLoadingOrder(false)
     message.success("Đặt hàng thành công")
@@ -468,6 +470,7 @@ const Checkout = () => {
     const params = {
       ids: cartItems.map(item => item.product_id)
     }
+    console.log(params, 'paramssssss')
     orderStore('getProductByIds', params)
     .then(res => {
       if (res.status == 200) {
