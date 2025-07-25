@@ -17,8 +17,8 @@ const FollowOA = () => {
   const getUserIdZalo = async (followedOA) => {
     try {
       const user_id = await getUserID()
-      setDataToStorage('customerStore', {...customer, id: user_id, zalo_followedOA: followedOA, is_guest: true})
-      setCustomer({ ...customer, id: user_id, zalo_followedOA: followedOA, is_guest: true})
+      setDataToStorage('customerStore', {...customer, zalo_user_id: user_id, zalo_followedOA: followedOA, is_guest: true})
+      setCustomer({ ...customer, zalo_user_id: user_id, zalo_followedOA: followedOA, is_guest: true})
     } catch (error) {
       console.log(error, "Error get user id zalo")
     }

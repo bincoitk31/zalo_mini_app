@@ -45,6 +45,7 @@ const Quantity = ({item}) => {
 
   const handleRemove = () => {
     let newCartItems = cartItems.filter(el => el.id != item.id)
+    console.log(newCartItems, 'newCartItems')
     setCartItems(newCartItems)
     setDataToStorage("cart-items", newCartItems)
     message.success('Xóa sản phẩm thành công')
