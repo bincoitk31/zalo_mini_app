@@ -22,10 +22,15 @@ export const blogStore = (type, payload = {}) => {
     return await getApi(`/blogs/all_articles`, {params: payload})
   }
 
+  const getArticle = async () => {
+    return await getApi(`/blogs/article`, {params: payload})
+  }
+
   const obj = {
     getArticles,
     getBlogs,
-    getAllArticles
+    getAllArticles,
+    getArticle
   }
 
   return obj[type](payload)

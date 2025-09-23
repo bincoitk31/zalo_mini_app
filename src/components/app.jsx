@@ -66,6 +66,7 @@ const MyApp = () => {
             <Route path="/membership" element={<Membership />}></Route>
             <Route path="/coupon" element={<Coupon />}></Route>
             <Route path="/qr-tcb/:render_id" element={<QrTcb />}></Route>
+            <Route path="/blog/post/:id" element={<Article />}></Route> {/* case vào từ link */}
           </AnimationRoutes>
           <FooterCustom />
         </ZMPRouter>

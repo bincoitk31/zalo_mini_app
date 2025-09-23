@@ -11,6 +11,7 @@ const ArticleItem = ({article}) => {
   const goToArticle = () => {
     setArticleState(article)
     navigate(`/blog/article`)
+    //navigate(`/blog/post/${article.id}`)
   }
 
   return (

@@ -5,7 +5,6 @@ import { categoriesState, categoryStore, categoryChooseState } from "../../recoi
 import { Handbag, DotOutline } from "@phosphor-icons/react";
 import { Button } from "antd";
 import { cartItemsState, totalPriceState, openCartState } from "../../recoil/order";
-import { formatNumber } from "../../utils/formatNumber";
 import { LoadingOutlined } from '@ant-design/icons'
 import { resizeLink } from "../../utils/tools"
 import CategoryItems from "../../components/category-items"
