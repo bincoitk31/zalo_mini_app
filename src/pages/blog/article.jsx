@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom"
 import { LoadingOutlined } from '@ant-design/icons'
 
 const Article = () => {
-  const {id} = useParams()
+  const {slug} = useParams()
   const setActiveTab = useSetRecoilState(activeTabState)
   const [article, setArticle] = useRecoilState(articleState)
   const [loading, setLoading] = useState(false)
@@ -18,16 +18,16 @@ const Article = () => {
   }, [])
 
   useEffect(() => {
-    if (!id) return
+    if (!slug) return
     setLoading(true)
-    blogStore('getArticle', {id})
+    blogStore('getArticle', {slug})
     .then(res => {
       if (res.status == 200) {
         setArticle(res.data.article)
       }
     })
     .finally(() => setLoading(false))
-  }, [id])
+  }, [slug])
 
   return (
     <>

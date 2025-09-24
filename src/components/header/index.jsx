@@ -29,7 +29,11 @@ const HeaderCustom = () => {
   }
 
   const goBack = () => {
-    navigate(-1)
+    if (window.history.length > 1) {
+      navigate(-1)
+    } else {
+      navigate('/')
+    }
   }
 
   const handleSearch = (e) => {
