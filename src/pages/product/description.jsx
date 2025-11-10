@@ -1,7 +1,7 @@
 import { resizeDescription } from "../../utils/tools"
 const Description = ({product}) => {
   const convertDes = (des) => {
-    return des.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).join("<br />")
+    return (des || "").split(/\r?\n/).map((line) => line.trim()).filter(Boolean).join("<br />")
   }
 
   return (
